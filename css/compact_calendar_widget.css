@@ -53,7 +53,7 @@
 }
 
 .settings-btn {
-	background: transparent;
+	background: transparent !important;
 	border: none;
 	cursor: pointer;
 	color: var(--color-text-maxcontrast, #555555);
