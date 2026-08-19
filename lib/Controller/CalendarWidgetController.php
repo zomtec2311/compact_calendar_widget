@@ -37,6 +37,7 @@ use DateTime;
 use DateTimeZone;
 use Sabre\VObject\Reader;
 use OCP\Config\IUserConfig;
+use Psr\Log\LoggerInterface;
 
 class CalendarWidgetController extends Controller {
     private IUserSession $userSession;
@@ -49,6 +50,7 @@ class CalendarWidgetController extends Controller {
         IUserSession $userSession,
         IDBConnection $db,
         IUserConfig $userConfig,
+        private readonly LoggerInterface $logger,
     ) {
         parent::__construct($appName, $request);
         $this->userSession = $userSession;
@@ -80,7 +82,7 @@ class CalendarWidgetController extends Controller {
                 $start = new DateTime($startParam . ' 00:00:00', $tz);
                 $end   = new DateTime($endParam . ' 23:59:59', $tz);
             } else {
-               $baseDate = $dateParam ? new DateTime($dateParam, $tz) : new DateTime('now', $tz);
+                $baseDate = $dateParam ? new DateTime($dateParam, $tz) : new DateTime('now', $tz);
                 $start    = clone $baseDate;
                 $end      = clone $baseDate;
 
@@ -119,11 +121,15 @@ class CalendarWidgetController extends Controller {
         $events = [];
 
         try {
-            $sql = 'SELECT co.calendardata
+            $sql = 'SELECT co.calendardata, co.uri as object_uri
                     FROM `*PREFIX*calendarobjects` co
                     JOIN `*PREFIX*calendars` c ON co.calendarid = c.id
                     WHERE c.principaluri = :principalUri
-                      AND co.componenttype = \'VEVENT\'';
+                      AND co.componenttype = \'VEVENT\'
+                      AND c.uri NOT LIKE \'%trash%\'
+                      AND c.uri NOT LIKE \'%delete%\'
+                      AND co.uri NOT LIKE \'%trash%\'
+                      AND co.uri NOT LIKE \'%delete%\'';
 
             $stmt = $this->db->prepare($sql);
             $stmt->bindValue('principalUri', $principalUri);
@@ -141,19 +147,53 @@ class CalendarWidgetController extends Controller {
                         continue;
                     }
 
+                    $method = (string)($vObject->METHOD ?? '');
+                    if (strtoupper($method) === 'CANCEL') {
+                        continue;
+                    }
+
                     foreach ($vObject->VEVENT as $vevent) {
+                        $status = strtoupper((string)($vevent->STATUS ?? ''));
+                        if ($status === 'CANCELLED' || $status === 'DELETED') {
+                            continue;
+                        }
+
+                        if (isset($vevent->{'X-NC-TRASH'}) && (string)$vevent->{'X-NC-TRASH'} === '1') {
+                            continue;
+                        }
+                        if (isset($vevent->{'X-TRASH'}) && (string)$vevent->{'X-TRASH'} === '1') {
+                            continue;
+                        }
+
                         $summary  = (string)($vevent->SUMMARY ?? 'Kein Titel');
                         $location = (string)($vevent->LOCATION ?? '');
 
                         $dtStart = isset($vevent->DTSTART) ? $vevent->DTSTART->getDateTime() : null;
                         $dtEnd   = isset($vevent->DTEND)   ? $vevent->DTEND->getDateTime()   : null;
 
-                        if ($dtStart && $dtStart <= $end && ($dtEnd === null || $dtEnd >= $start)) {
+                        if (!$dtStart) {
+                            continue;
+                        }
+
+                        if (isset($vevent->DTSTART['VALUE']) && (string)$vevent->DTSTART['VALUE'] === 'DATE') {
+                            $dtStart = new DateTime($dtStart->format('Y-m-d') . ' 00:00:00', $tz);
+                            if ($dtEnd) {
+                                $dtEnd = new DateTime($dtEnd->format('Y-m-d') . ' 00:00:00', $tz);
+                                $dtEnd->modify('-1 second');
+                            } else {
+                                $dtEnd = clone $dtStart;
+                                $dtEnd->setTime(23, 59, 59);
+                            }
+                        }
+
+                        $effectiveEnd = $dtEnd ?? $dtStart;
+
+                        if ($dtStart <= $end && $effectiveEnd >= $start) {
                             $events[] = [
                                 'id'       => (string)($vevent->UID ?? uniqid()),
                                 'title'    => $summary,
-                                'start'    => $dtStart ? $dtStart->format('c') : null,
-                                'end'      => $dtEnd ? $dtEnd->format('c') : null,
+                                'start'    => $dtStart->format('c'),
+                                'end'      => $effectiveEnd->format('c'),
                                 'location' => $location,
                             ];
                         }
@@ -193,14 +233,13 @@ class CalendarWidgetController extends Controller {
             return new DataResponse(['error' => 'Unauthorized'], 401);
         }
 
-        // Falls $key nicht direkt gemappt wurde, aus den Query-Parametern holen
         $key = $key ?? $this->request->getParam('key', 'defaultView');
 
         $value = $this->userConfig->getValueString(
             $user->getUID(),
             $this->appName,
             $key,
-            'month' // Sinnvoller Standard-Fallback
+            'month'
         );
 
         return new DataResponse([
@@ -219,7 +258,6 @@ class CalendarWidgetController extends Controller {
             return new DataResponse(['error' => 'Unauthorized'], 401);
         }
 
-        // Liest verlässlich sowohl JSON-Payload als auch Formulardaten & URL-Parameter
         $params = $this->request->getParams();
 
         $key = $key ?? $params['key'] ?? null;
