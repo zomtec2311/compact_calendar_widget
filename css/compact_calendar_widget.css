@@ -349,7 +349,8 @@
 	bottom: 115%;
 	left: 50%;
 	transform: translateX(-50%);
-	width: 170px;
+	width: 200px;
+	max-height: 260px;
 	background: var(--color-main-background, #ffffff) !important;
 	box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
 	border-radius: 8px;
@@ -359,21 +360,34 @@
 	font-family: var(--font-family, sans-serif) !important;
 	font-size: 0.8rem !important;
 	color: var(--color-main-text, #111111) !important;
-	pointer-events: none;
+	pointer-events: auto;
 	white-space: normal;
 	opacity: 1 !important;
 	box-sizing: border-box !important;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	flex-direction: column;
+}
+
+/* UNSICHTBARE BRÜCKE: Verhindert Schließen beim Bewegen der Maus zum Popover */
+.event-popover::before {
+	content: '';
+	position: absolute;
+	top: 100%;
+	left: 0;
+	right: 0;
+	height: 25px;
+	background: transparent;
 }
 
 .day-cell.has-events:hover .event-popover,
-.year-day-cell.has-events:hover .event-popover {
-	display: block !important;
+.year-day-cell.has-events:hover .event-popover,
+.event-popover:hover {
+	display: flex !important;
 }
 
 .event-popover.show-mobile {
-	display: block !important;
+	display: flex !important;
 }
 
 .days-grid .day-cell:nth-child(7n+1) .event-popover,
@@ -403,6 +417,7 @@
 	margin-bottom: 0 !important;
 	line-height: 1.2 !important;
 	border: none !important;
+	flex-shrink: 0;
 }
 
 hr.popover-divider {
@@ -413,19 +428,36 @@ hr.popover-divider {
 	margin: 4px 0 6px 0 !important;
 	padding: 0 !important;
 	width: 100% !important;
+	flex-shrink: 0;
 }
 
 .event-popover ul {
 	list-style: none !important;
-	padding: 0 !important;
+	padding: 0 4px 0 0 !important;
 	margin: 0 !important;
+	overflow-y: auto !important;
+	max-height: 180px;
+	scrollbar-width: thin;
+
+	/* MOBIL- & BROWSER-SCHUTZ GEGEN SCROLL-CHAINING */
+	-webkit-overflow-scrolling: touch; /* Flüssiges Touch-Scrollen (iOS Safari) */
+	overscroll-behavior: contain;      /* Standard: Verhindert Durchreichen des Scrollens an Elternelemente (Chrome, Firefox, Safari 16+, Edge) */
+	touch-action: pan-y;               /* Verhindert horizontales Wischen/Gestenübertragung auf Smartphones */
+}
+
+.event-popover ul::-webkit-scrollbar {
+	width: 4px;
+}
+
+.event-popover ul::-webkit-scrollbar-thumb {
+	background: rgba(0, 0, 0, 0.25);
+	border-radius: 4px;
 }
 
 .event-popover li {
-	margin-bottom: 4px !important;
-	white-space: nowrap !important;
-	overflow: hidden !important;
-	text-overflow: ellipsis !important;
+	margin-bottom: 6px !important;
+	white-space: normal !important;
+	word-break: break-word !important;
 	color: var(--color-main-text, #333333) !important;
 	font-weight: 600 !important;
 	font-size: 0.75rem !important;
@@ -436,13 +468,26 @@ hr.popover-divider {
 	font-weight: 700 !important;
 	color: var(--color-main-text, #111111) !important;
 	display: inline-block;
-	margin-right: 6px;
+	margin-right: 4px;
 }
 
 .event-popover li .location {
-	opacity: 0.7;
+	opacity: 0.85;
 	font-size: 0.7rem;
-	margin-left: 3px;
+}
+
+.location {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	margin-left: 0.8rem;
+	font-size: 0.75em;
+	opacity: 0.85;
+	word-break: break-word;
+}
+
+.location svg {
+	flex-shrink: 0;
 }
 
 .settings-modal-wrapper {
@@ -453,7 +498,7 @@ hr.popover-divider {
 	height: 100vh !important;
 	background: rgba(0, 0, 0, 0.6) !important;
 	backdrop-filter: blur(4px);
-	z-index: 10000 !important; /* Über dem Nextcloud-Header und Dashboard */
+	z-index: 10000 !important;
 	display: flex !important;
 	align-items: center !important;
 	justify-content: center !important;
@@ -470,6 +515,7 @@ hr.popover-divider {
 	max-width: 440px !important;
 	max-height: 85vh !important;
 	overflow-y: auto !important;
+	overscroll-behavior: contain;
 }
 
 .settings-modal h3 {
@@ -626,7 +672,6 @@ hr.popover-divider {
 	}
 }
 
-
 .day-cell .event-count-badge,
 .year-day-cell .event-count-badge {
 	position: absolute;
@@ -635,7 +680,6 @@ hr.popover-divider {
 	width: 16px;
 	height: 16px;
 	background-color: var(--color-primary-element, #0082c9);
-	/*color: var(--color-primary-element-text, #ffffff);*/
 	color: #ffffff !important;
 	border: 1.5px solid var(--color-main-background, #ffffff);
 	border-radius: 50%;
@@ -645,7 +689,6 @@ hr.popover-divider {
 	align-items: center;
 	justify-content: center;
 	line-height: 1;
-	z-index: 2;
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
 	pointer-events: none;
 }
@@ -657,7 +700,6 @@ hr.popover-divider {
 	color: #ffffff !important;
 }
 
-/* Colorful-Theme Badges (Ampelfarben für Badges) */
 .compact-calendar-widget[data-theme="colorful"] .events-low .event-count-badge {
 	background-color: #27ae60 !important;
 	color: #ffffff !important;
