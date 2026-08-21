@@ -121,21 +121,22 @@ class CalendarWidgetController extends Controller {
         $events = [];
 
         try {
-            $sql = 'SELECT co.calendardata, co.uri as object_uri
+            $sql = 'SELECT co.calendardata, co.uri as object_uri, c.principaluri
                     FROM `*PREFIX*calendarobjects` co
                     JOIN `*PREFIX*calendars` c ON co.calendarid = c.id
-                    WHERE c.principaluri = :principalUri
-                      AND co.componenttype = \'VEVENT\'
+                    WHERE co.componenttype = \'VEVENT\'
                       AND c.uri NOT LIKE \'%trash%\'
                       AND c.uri NOT LIKE \'%delete%\'
                       AND co.uri NOT LIKE \'%trash%\'
                       AND co.uri NOT LIKE \'%delete%\'';
 
             $stmt = $this->db->prepare($sql);
-            $stmt->bindValue('principalUri', $principalUri);
             $result = $stmt->execute();
 
-            while ($row = $result->fetch()) {
+            $rows = $result->fetchAll();
+            $result->closeCursor();
+
+            foreach ($rows as $row) {
                 $calendarData = $row['calendardata'] ?? null;
                 if (!$calendarData || !is_string($calendarData)) {
                     continue;
@@ -152,7 +153,21 @@ class CalendarWidgetController extends Controller {
                         continue;
                     }
 
-                    foreach ($vObject->VEVENT as $vevent) {
+                    $veventsToProcess = [];
+                    try {
+                        $expandedVObject = $vObject->expand($start, $end, $tz);
+                        if (isset($expandedVObject->VEVENT)) {
+                            foreach ($expandedVObject->VEVENT as $ev) {
+                                $veventsToProcess[] = $ev;
+                            }
+                        }
+                    } catch (\Throwable $expandError) {
+                        foreach ($vObject->VEVENT as $ev) {
+                            $veventsToProcess[] = $ev;
+                        }
+                    }
+
+                    foreach ($veventsToProcess as $vevent) {
                         $status = strtoupper((string)($vevent->STATUS ?? ''));
                         if ($status === 'CANCELLED' || $status === 'DELETED') {
                             continue;
@@ -168,14 +183,25 @@ class CalendarWidgetController extends Controller {
                         $summary  = (string)($vevent->SUMMARY ?? 'Kein Titel');
                         $location = (string)($vevent->LOCATION ?? '');
 
-                        $dtStart = isset($vevent->DTSTART) ? $vevent->DTSTART->getDateTime() : null;
-                        $dtEnd   = isset($vevent->DTEND)   ? $vevent->DTEND->getDateTime()   : null;
+                        $dtStartProp = $vevent->DTSTART ?? null;
+                        $dtEndProp   = $vevent->DTEND ?? null;
 
-                        if (!$dtStart) {
+                        if (!$dtStartProp) {
                             continue;
                         }
 
-                        if (isset($vevent->DTSTART['VALUE']) && (string)$vevent->DTSTART['VALUE'] === 'DATE') {
+                        /** @var \DateTime $dtStart */
+                        $dtStart = $dtStartProp->getDateTime();
+                        $dtEnd   = $dtEndProp ? $dtEndProp->getDateTime() : null;
+
+                        $dtStart->setTimezone($tz);
+                        if ($dtEnd) {
+                            $dtEnd->setTimezone($tz);
+                        }
+
+                        $isAllDay = false;
+                        if (isset($dtStartProp['VALUE']) && (string)$dtStartProp['VALUE'] === 'DATE') {
+                            $isAllDay = true;
                             $dtStart = new DateTime($dtStart->format('Y-m-d') . ' 00:00:00', $tz);
                             if ($dtEnd) {
                                 $dtEnd = new DateTime($dtEnd->format('Y-m-d') . ' 00:00:00', $tz);
@@ -189,20 +215,24 @@ class CalendarWidgetController extends Controller {
                         $effectiveEnd = $dtEnd ?? $dtStart;
 
                         if ($dtStart <= $end && $effectiveEnd >= $start) {
+                            $uid = (string)($vevent->UID ?? uniqid());
+                            $instanceId = $uid . '_' . $dtStart->format('YmdHis');
+
                             $events[] = [
-                                'id'       => (string)($vevent->UID ?? uniqid()),
+                                'id'       => $instanceId,
                                 'title'    => $summary,
                                 'start'    => $dtStart->format('c'),
                                 'end'      => $effectiveEnd->format('c'),
                                 'location' => $location,
+                                'allDay'   => $isAllDay,
                             ];
                         }
                     }
                 } catch (\Throwable $e) {
+                    $this->logger->error('Widget Calendar Parsing Error: ' . $e->getMessage(), ['app' => $this->appName]);
                     continue;
                 }
             }
-            $result->closeCursor();
 
         } catch (\Throwable $e) {
             return new DataResponse(['error' => $e->getMessage()], 500);
