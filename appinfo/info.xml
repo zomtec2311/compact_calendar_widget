@@ -14,7 +14,7 @@ A modern and compact calendar widget for your Nextcloud Dashboard that gives you
 - ⚙️ **Configurable Settings:** Easily customize views, default themes, and counters directly from the widget.
 
 > ℹ️ **Note:** This widget works best when used alongside the official **Nextcloud Calendar** app to unlock its full potential and display all your events smoothly.]]></description>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <licence>agpl</licence>
     <author mail="wtoedt@gmail.com" homepage="https://github.com/zomtec2311/logcleaner">Wolfgang Tödt</author>
     <namespace>CompactCalendarWidget</namespace>
