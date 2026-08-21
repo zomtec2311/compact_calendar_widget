@@ -121,7 +121,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          php "nextcloud/nextcloud-${NEXTCLOUD_VERSION}/occ" \
+          php "nextcloud/nextcloud/occ" \
             integrity:sign-app \
             --privateKey="${GITHUB_WORKSPACE}/app.key" \
             --certificate="${GITHUB_WORKSPACE}/app.crt" \
@@ -181,7 +181,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload signed app to Nextcloud App Store
+      - name: Upload signed app to Official Nextcloud App Store
         if: >
           github.event_name == 'release' &&
           steps.certificates.outputs.signing_available == 'true' &&
@@ -196,6 +196,40 @@ jobs:
             github.event.release.tag_name }}/${{
             steps.package.outputs.package_name }}
           nightly: ${{ github.event.release.prerelease }}
+
+      - name: Upload signed app to Custom Django App Store
+        if: >
+          github.event_name == 'release' &&
+          steps.certificates.outputs.signing_available == 'true' &&
+          !startsWith(steps.package.outputs.package_name, 'unsigned_')
+        shell: bash
+        env:
+          APPSTORE_TOKEN: ${{ secrets.MY_CUSTOM_APPSTORE_TOKEN }}
+          PACKAGE_NAME: ${{ steps.package.outputs.package_name }}
+          DOWNLOAD_URL: >-
+            https://github.com/${{ github.repository }}/releases/download/${{
+            github.event.release.tag_name }}/${{
+            steps.package.outputs.package_name }}
+          NIGHTLY: ${{ github.event.release.prerelease }}
+        run: |
+          set -euo pipefail
+
+          # Signatur der Archivdatei erzeugen
+          openssl dgst -sha512 -sign "${GITHUB_WORKSPACE}/app.key" "${PACKAGE_NAME}" | base64 -w 0 > signature.txt
+          SIGNATURE=$(cat signature.txt)
+
+          # Sauber lesbaren JSON-Payload in eine temporäre Datei schreiben
+          jq -n \
+            --arg download "${DOWNLOAD_URL}" \
+            --arg signature "${SIGNATURE}" \
+            --argjson nightly "${NIGHTLY}" \
+            '{download: $download, signature: $signature, nightly: $nightly}' > payload.json
+
+          # Payload an das eigene Django App Store Backend senden
+          curl -f -X POST "https://git.24wt.de/nc_appstore/api/v1/apps/releases/" \
+            -H "Authorization: Token ${APPSTORE_TOKEN}" \
+            -H "Content-Type: application/json" \
+            -d @payload.json
 
       - name: Upload archive as workflow artifact
         if: github.event_name == 'workflow_dispatch'
