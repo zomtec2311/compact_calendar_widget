@@ -1,0 +1,163 @@
+name: Sign and Package Nextcloud App
+
+on:
+  release:
+    types: [published]
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  PHP_VERSION: '8.5'
+  NEXTCLOUD_VERSION: '34.0.3'
+  APP_DIR: ${{ github.event.repository.name }}
+
+jobs:
+  build-and-sign:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          path: ${{ env.APP_DIR }}
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: >-
+            ctype,
+            curl,
+            dom,
+            iconv,
+            json,
+            libxml,
+            mbstring,
+            openssl,
+            posix,
+            session,
+            simplexml,
+            xml,
+            xmlreader,
+            xmlwriter,
+            zip,
+            zlib
+
+      - name: Install Nextcloud OCC tooling
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          mkdir -p nextcloud
+          cd nextcloud
+
+          wget --quiet --show-progress \
+            "https://download.nextcloud.com/server/releases/nextcloud-${NEXTCLOUD_VERSION}.tar.bz2"
+
+          tar -xjf "nextcloud-${NEXTCLOUD_VERSION}.tar.bz2"
+
+      - name: Prepare signing certificates
+        id: certificates
+        shell: bash
+        env:
+          APP_KEY: ${{ secrets.NEXTCLOUD_APP_KEY }}
+          APP_CERT: ${{ secrets.NEXTCLOUD_APP_CERT }}
+        run: |
+          set -euo pipefail
+
+          if [[ -z "$APP_KEY" || -z "$APP_CERT" ]]; then
+            echo "::warning::NEXTCLOUD_APP_KEY oder NEXTCLOUD_APP_CERT fehlt bzw. ist leer."
+            echo "::warning::Die App wird unsigniert paketiert."
+            echo "signing_available=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          printf '%s\n' "$APP_KEY" > app.key
+          printf '%s\n' "$APP_CERT" > app.crt
+
+          chmod 600 app.key app.crt
+
+          echo "Signing-Secrets vorhanden."
+          echo "signing_available=true" >> "$GITHUB_OUTPUT"
+
+      - name: Sign the app
+        if: steps.certificates.outputs.signing_available == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          php "nextcloud/nextcloud-${NEXTCLOUD_VERSION}/occ" integrity:sign-app \
+            --privateKey="app.key" \
+            --certificate="app.crt" \
+            --path="${APP_DIR}"
+
+      - name: Package app archive
+        shell: bash
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+
+          # Git- und Entwicklungsdateien aus dem Archiv entfernen
+          rm -rf "${APP_DIR}/.git" \
+                 "${APP_DIR}/.github" \
+                 "${APP_DIR}/.gitignore"
+
+          # Nicht benötigte Bilddateien aus dem Archiv entfernen
+          rm -f "${APP_DIR}/compact_calendar_widget-hover.png" \
+                "${APP_DIR}/compact_calendar_widget-month.png" \
+                "${APP_DIR}/compact_calendar_widget-week.png" \
+                "${APP_DIR}/compact_calendar_widget-year.png" \
+                "${APP_DIR}/hover-appointments.png" \
+                "${APP_DIR}/monthly-standard-without.png" \
+                "${APP_DIR}/settings.png" \
+                "${APP_DIR}/weekly-standard-without.png" \
+                "${APP_DIR}/yearly-colorful-with.png" \
+                "${APP_DIR}/yearly-standard-with.png" \
+                "${APP_DIR}/yearly-standard-without.png"
+
+          # Bei Releases den Release-Tag verwenden.
+          # Bei manuellen Läufen Branch- oder Tag-Namen verwenden.
+          TAG="${RELEASE_TAG:-$REF_NAME}"
+
+          # Problematische Zeichen für Dateinamen ersetzen
+          TAG="${TAG//\//-}"
+          TAG="${TAG// /-}"
+
+          if [[ "${{ steps.certificates.outputs.signing_available }}" == "true" ]]; then
+            PACKAGE_NAME="${APP_DIR}_${TAG}.tar.gz"
+          else
+            PACKAGE_NAME="unsigned_${APP_DIR}_${TAG}.tar.gz"
+          fi
+
+          tar -czf "$PACKAGE_NAME" "$APP_DIR"
+
+          echo "PACKAGE_NAME=$PACKAGE_NAME" >> "$GITHUB_ENV"
+          echo "Erzeugtes Archiv: $PACKAGE_NAME"
+
+      - name: Upload asset to release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ env.PACKAGE_NAME }}
+          fail_on_unmatched_files: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload artifact from manual run
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.PACKAGE_NAME }}
+          path: ${{ env.PACKAGE_NAME }}
+          if-no-files-found: error
+
+      - name: Remove signing files
+        if: always()
+        shell: bash
+        run: |
+          rm -f app.key app.crt
