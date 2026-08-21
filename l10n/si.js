@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "සංදර්ශක විකල්ප",
     "Show appointment counters": "හමුවීම් කවුන්ටර පෙන්වන්න",
     "on": "මත",
-    "off": "අක්රිය"
+    "off": "අක්රිය",
+    "No calendar selected in Settings": "සැකසීම් තුළ දින දර්ශනයක් තෝරා නැත",
+    "Displayed calendars": "දින දර්ශන පෙන්වයි"
 },
 "nplurals=2; plural=n > 1;");

@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "প্রদর্শনের বিকল্প",
     "Show appointment counters": "অ্যাপয়েন্টমেন্ট কাউন্টার দেখান",
     "on": "অন",
-    "off": "বন্ধ"
+    "off": "বন্ধ",
+    "No calendar selected in Settings": "সেটিংসে কোনো ক্যালেন্ডার নির্বাচন করা হয়নি৷",
+    "Displayed calendars": "প্রদর্শিত ক্যালেন্ডার"
 },
 "nplurals=2; plural=n > 1;");

@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "אפשרויות תצוגה",
     "Show appointment counters": "הצג דלפקי פגישות",
     "on": "עַל",
-    "off": "כבוי"
+    "off": "כבוי",
+    "No calendar selected in Settings": "לא נבחר יומן בהגדרות",
+    "Displayed calendars": "לוחות שנה מוצגים"
 },
 "nplurals=3; plural=(n == 1) ? 0 : ((n == 2) ? 1 : 2);");

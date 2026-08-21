@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "تاللاش تاللانمىلىرى",
     "Show appointment counters": "تەيىنلەش ھېساباتىنى كۆرسەت",
     "on": "on",
-    "off": "off"
+    "off": "off",
+    "No calendar selected in Settings": "تەڭشەكلەردە تاللانما تاللانمىدى",
+    "Displayed calendars": "كالېندار كۆرسىتىلدى"
 },
 "nplurals=2; plural=n != 1;");

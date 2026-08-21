@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "Параметри відображення",
     "Show appointment counters": "Показати лічильники зустрічей",
     "on": "на",
-    "off": "вимкнено"
+    "off": "вимкнено",
+    "No calendar selected in Settings": "У налаштуваннях не вибрано жодного календаря",
+    "Displayed calendars": "Відображені календарі"
 },
 "nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);");

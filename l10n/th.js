@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "ตัวเลือกการแสดงผล",
     "Show appointment counters": "แสดงเคาน์เตอร์นัดหมาย",
     "on": "บน",
-    "off": "ปิด"
+    "off": "ปิด",
+    "No calendar selected in Settings": "ไม่ได้เลือกปฏิทินในการตั้งค่า",
+    "Displayed calendars": "ปฏิทินที่แสดง"
 },
 "nplurals=1; plural=0;");

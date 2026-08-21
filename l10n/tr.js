@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "Görüntüleme seçenekleri",
     "Show appointment counters": "Randevu sayaçlarını göster",
     "on": "Açık",
-    "off": "kapalı"
+    "off": "kapalı",
+    "No calendar selected in Settings": "Ayarlar'da takvim seçilmedi",
+    "Displayed calendars": "Görüntülenen takvimler"
 },
 "nplurals=2; plural=n != 1;");

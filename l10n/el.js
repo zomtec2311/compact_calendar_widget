@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "Επιλογές εμφάνισης",
     "Show appointment counters": "Εμφάνιση μετρητών ραντεβού",
     "on": "επί",
-    "off": "μακριά από"
+    "off": "μακριά από",
+    "No calendar selected in Settings": "Δεν έχει επιλεγεί ημερολόγιο στις Ρυθμίσεις",
+    "Displayed calendars": "Εμφανιζόμενα ημερολόγια"
 },
 "nplurals=2; plural=n != 1;");

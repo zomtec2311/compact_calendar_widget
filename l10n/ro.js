@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "Opțiuni de afișare",
     "Show appointment counters": "Afișați contoarele de întâlniri",
     "on": "pe",
-    "off": "oprit"
+    "off": "oprit",
+    "No calendar selected in Settings": "Niciun calendar selectat în Setări",
+    "Displayed calendars": "Calendare afișate"
 },
 "nplurals=3; plural=(n == 1) ? 0 : ((n == 0 || n != 1 && n % 100 >= 1 && n % 100 <= 19) ? 1 : 2);");

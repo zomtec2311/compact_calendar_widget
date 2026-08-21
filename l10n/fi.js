@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "Näyttövaihtoehdot",
     "Show appointment counters": "Näytä tapaamislaskurit",
     "on": "päällä",
-    "off": "pois"
+    "off": "pois",
+    "No calendar selected in Settings": "Kalenteria ei ole valittu asetuksista",
+    "Displayed calendars": "Näytetään kalentereita"
 },
 "nplurals=2; plural=n != 1;");

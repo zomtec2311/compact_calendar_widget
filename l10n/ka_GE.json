@@ -21,7 +21,9 @@
         "Display options": "ჩვენების პარამეტრები",
         "Show appointment counters": "შეხვედრის მრიცხველების ჩვენება",
         "on": "on",
-        "off": "გამორთულია"
+        "off": "გამორთულია",
+        "No calendar selected in Settings": "პარამეტრებში კალენდარი არჩეული არ არის",
+        "Displayed calendars": "ნაჩვენები კალენდრები"
     },
     "pluralForm": "nplurals=2; plural=n != 1;"
 }

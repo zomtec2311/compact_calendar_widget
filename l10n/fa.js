@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "گزینه های نمایش",
     "Show appointment counters": "نمایش شمارنده های قرار",
     "on": "در",
-    "off": "خاموش"
+    "off": "خاموش",
+    "No calendar selected in Settings": "هیچ تقویمی در تنظیمات انتخاب نشده است",
+    "Displayed calendars": "تقویم های نمایش داده شده"
 },
 "nplurals=2; plural=n > 1;");

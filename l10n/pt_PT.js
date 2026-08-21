@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "Opções de exibição",
     "Show appointment counters": "Mostrar contadores de compromissos",
     "on": "sobre",
-    "off": "desligado"
+    "off": "desligado",
+    "No calendar selected in Settings": "Nenhum calendário selecionado nas configurações",
+    "Displayed calendars": "Calendários exibidos"
 },
 "nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);");

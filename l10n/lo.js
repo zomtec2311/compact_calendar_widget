@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "ຕົວເລືອກການສະແດງ",
     "Show appointment counters": "ສະແດງເຄົາເຕີນັດໝາຍ",
     "on": "ສຸດ",
-    "off": "ປິດ"
+    "off": "ປິດ",
+    "No calendar selected in Settings": "ບໍ່ໄດ້ເລືອກປະຕິທິນໃນການຕັ້ງຄ່າ",
+    "Displayed calendars": "ປະຕິທິນທີ່ສະແດງ"
 },
 "nplurals=1; plural=0;");

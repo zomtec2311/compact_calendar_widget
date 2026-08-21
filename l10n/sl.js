@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "Možnosti prikaza",
     "Show appointment counters": "Prikaži števce sestankov",
     "on": "na",
-    "off": "izklopljeno"
+    "off": "izklopljeno",
+    "No calendar selected in Settings": "V nastavitvah ni izbran koledar",
+    "Displayed calendars": "Prikazani koledarji"
 },
 "nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));");

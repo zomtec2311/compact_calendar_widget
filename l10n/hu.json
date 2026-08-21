@@ -21,7 +21,9 @@
         "Display options": "Megjelenítési lehetőségek",
         "Show appointment counters": "Időpontszámlálók megjelenítése",
         "on": "-on",
-        "off": "le"
+        "off": "le",
+        "No calendar selected in Settings": "Nincs kiválasztva naptár a Beállításokban",
+        "Displayed calendars": "Megjelenített naptárak"
     },
     "pluralForm": "nplurals=2; plural=n != 1;"
 }

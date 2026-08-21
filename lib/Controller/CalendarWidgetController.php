@@ -34,28 +34,26 @@ use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\IDBConnection;
 use DateTime;
+use DateTimeImmutable;
 use DateTimeZone;
 use Sabre\VObject\Reader;
 use OCP\Config\IUserConfig;
+use OCP\Calendar\IManager;
+use OCP\Calendar\ICalendar;
 use Psr\Log\LoggerInterface;
 
 class CalendarWidgetController extends Controller {
-    private IUserSession $userSession;
-    private IDBConnection $db;
-    private IUserConfig $userConfig;
 
     public function __construct(
         string $appName,
         IRequest $request,
-        IUserSession $userSession,
-        IDBConnection $db,
-        IUserConfig $userConfig,
+        private IUserSession $userSession,
+        private IDBConnection $db,
+        private IUserConfig $userConfig,
         private readonly LoggerInterface $logger,
+        private IManager $calendarManager
     ) {
         parent::__construct($appName, $request);
-        $this->userSession = $userSession;
-        $this->db = $db;
-        $this->userConfig = $userConfig;
     }
 
     /**
@@ -63,26 +61,68 @@ class CalendarWidgetController extends Controller {
      * @NoCSRFRequired
      */
     public function getEvents(string $range = 'week'): DataResponse {
-        $user = $this->userSession->getUser();
-        if (!$user) {
-            return new DataResponse([], 401);
-        }
-
-        $userId = $user->getUID();
-        $principalUri = 'principals/users/' . $userId;
-
-        $tz = new DateTimeZone(date_default_timezone_get());
-
-        $startParam = $this->request->getParam('start');
-        $endParam   = $this->request->getParam('end');
-        $dateParam  = $this->request->getParam('date');
-
         try {
+            $user = $this->userSession->getUser();
+            if (!$user) {
+                return new DataResponse([], 401);
+            }
+
+            $userId = $user->getUID();
+            $tz = new DateTimeZone(date_default_timezone_get());
+
+            $rawSelected = $this->userConfig->getValueString($userId, $this->appName, 'selected_calendars', '');
+            if (empty($rawSelected)) {
+                $rawSelected = $this->userConfig->getValueString($userId, $this->appName, 'selectedCalendars', '');
+            }
+            if (empty($rawSelected)) {
+                $rawSelected = $this->userConfig->getValueString($userId, $this->appName, 'calendars', '');
+            }
+
+            $selectedCalendars = [];
+            $hasStoredConfig = !empty($rawSelected);
+
+            if ($hasStoredConfig) {
+                $decoded = json_decode($rawSelected, true);
+                if (is_array($decoded)) {
+                    foreach ($decoded as $item) {
+                        if (is_array($item)) {
+                            if (isset($item['uri'])) $selectedCalendars[] = (string)$item['uri'];
+                            elseif (isset($item['id'])) $selectedCalendars[] = (string)$item['id'];
+                            elseif (isset($item['value'])) $selectedCalendars[] = (string)$item['value'];
+                        } else {
+                            $selectedCalendars[] = (string)$item;
+                        }
+                    }
+                }
+            }
+            $selectedCalendars = array_filter(array_unique($selectedCalendars));
+
+            if ($hasStoredConfig && empty($selectedCalendars)) {
+                return new DataResponse([]);
+            }
+
+            $calendarColors = [];
+            try {
+                $userCalendars = $this->calendarManager->getCalendars();
+                foreach ($userCalendars as $cal) {
+                    if (!$cal instanceof ICalendar) continue;
+                    $color = method_exists($cal, 'getColor') ? (string)$cal->getColor() : '#0082c9';
+                    if (method_exists($cal, 'getUri')) $calendarColors[(string)$cal->getUri()] = $color;
+                    if (method_exists($cal, 'getKey')) $calendarColors[(string)$cal->getKey()] = $color;
+                }
+            } catch (\Throwable $e) {
+                $this->logger->warning('CalendarWidget: Manager failed to fetch colors', ['exception' => $e]);
+            }
+
+            $startParam = $this->request->getParam('start');
+            $endParam   = $this->request->getParam('end');
+            $dateParam  = $this->request->getParam('date');
+
             if ($startParam && $endParam) {
-                $start = new DateTime($startParam . ' 00:00:00', $tz);
-                $end   = new DateTime($endParam . ' 23:59:59', $tz);
+                $start = new DateTime((string)$startParam . ' 00:00:00', $tz);
+                $end   = new DateTime((string)$endParam . ' 23:59:59', $tz);
             } else {
-                $baseDate = $dateParam ? new DateTime($dateParam, $tz) : new DateTime('now', $tz);
+                $baseDate = $dateParam ? new DateTime((string)$dateParam, $tz) : new DateTime('now', $tz);
                 $start    = clone $baseDate;
                 $end      = clone $baseDate;
 
@@ -111,57 +151,58 @@ class CalendarWidgetController extends Controller {
                         break;
                 }
             }
-        } catch (\Throwable $e) {
-            $start = new DateTime('now', $tz);
-            $end   = clone $start;
-            $start->modify('first day of this month')->setTime(0, 0, 0);
-            $end->modify('last day of this month')->setTime(23, 59, 59);
-        }
 
-        $events = [];
-
-        try {
-            $sql = 'SELECT co.calendardata, co.uri as object_uri, c.principaluri
+            $sql = 'SELECT co.calendardata, c.uri as calendar_uri, c.id as calendar_id
                     FROM `*PREFIX*calendarobjects` co
                     JOIN `*PREFIX*calendars` c ON co.calendarid = c.id
-                    WHERE co.componenttype = \'VEVENT\'
-                      AND c.uri NOT LIKE \'%trash%\'
-                      AND c.uri NOT LIKE \'%delete%\'
-                      AND co.uri NOT LIKE \'%trash%\'
-                      AND co.uri NOT LIKE \'%delete%\'';
+                    WHERE co.componenttype = \'VEVENT\'';
 
             $stmt = $this->db->prepare($sql);
             $result = $stmt->execute();
-
             $rows = $result->fetchAll();
             $result->closeCursor();
 
+            $events = [];
+            $utcTz = new DateTimeZone('UTC');
+            $expandStart = new DateTimeImmutable($start->format('Y-m-d H:i:s'), $tz);
+            $expandEnd   = new DateTimeImmutable($end->format('Y-m-d H:i:s'), $tz);
+
             foreach ($rows as $row) {
                 $calendarData = $row['calendardata'] ?? null;
+                $calUri       = (string)($row['calendar_uri'] ?? '');
+                $calId        = (string)($row['calendar_id'] ?? '');
+
+                if ($hasStoredConfig && !empty($selectedCalendars)) {
+                    $matched = false;
+                    foreach ($selectedCalendars as $sel) {
+                        if ($sel === $calUri || $sel === $calId || str_ends_with($calUri, '/' . $sel) || str_contains($calUri, $sel)) {
+                            $matched = true;
+                            break;
+                        }
+                    }
+                    if (!$matched) {
+                        continue;
+                    }
+                }
+
                 if (!$calendarData || !is_string($calendarData)) {
                     continue;
                 }
 
                 try {
                     $vObject = Reader::read($calendarData);
-                    if (!isset($vObject->VEVENT)) {
-                        continue;
-                    }
-
-                    $method = (string)($vObject->METHOD ?? '');
-                    if (strtoupper($method) === 'CANCEL') {
-                        continue;
-                    }
+                    if (!isset($vObject->VEVENT)) continue;
 
                     $veventsToProcess = [];
                     try {
-                        $expandedVObject = $vObject->expand($start, $end, $tz);
-                        if (isset($expandedVObject->VEVENT)) {
-                            foreach ($expandedVObject->VEVENT as $ev) {
+                        $cloned = clone $vObject;
+                        $expanded = $cloned->expand($expandStart->setTimezone($utcTz), $expandEnd->setTimezone($utcTz));
+                        if ($expanded && isset($expanded->VEVENT)) {
+                            foreach ($expanded->VEVENT as $ev) {
                                 $veventsToProcess[] = $ev;
                             }
                         }
-                    } catch (\Throwable $expandError) {
+                    } catch (\Throwable $e) {
                         foreach ($vObject->VEVENT as $ev) {
                             $veventsToProcess[] = $ev;
                         }
@@ -169,35 +210,18 @@ class CalendarWidgetController extends Controller {
 
                     foreach ($veventsToProcess as $vevent) {
                         $status = strtoupper((string)($vevent->STATUS ?? ''));
-                        if ($status === 'CANCELLED' || $status === 'DELETED') {
-                            continue;
-                        }
-
-                        if (isset($vevent->{'X-NC-TRASH'}) && (string)$vevent->{'X-NC-TRASH'} === '1') {
-                            continue;
-                        }
-                        if (isset($vevent->{'X-TRASH'}) && (string)$vevent->{'X-TRASH'} === '1') {
-                            continue;
-                        }
-
-                        $summary  = (string)($vevent->SUMMARY ?? 'Kein Titel');
-                        $location = (string)($vevent->LOCATION ?? '');
+                        if ($status === 'CANCELLED' || $status === 'DELETED') continue;
 
                         $dtStartProp = $vevent->DTSTART ?? null;
-                        $dtEndProp   = $vevent->DTEND ?? null;
-
-                        if (!$dtStartProp) {
-                            continue;
-                        }
+                        if (!$dtStartProp) continue;
 
                         /** @var \DateTime $dtStart */
                         $dtStart = $dtStartProp->getDateTime();
-                        $dtEnd   = $dtEndProp ? $dtEndProp->getDateTime() : null;
+                        $dtEndProp = $vevent->DTEND ?? null;
+                        $dtEnd = $dtEndProp ? $dtEndProp->getDateTime() : null;
 
                         $dtStart->setTimezone($tz);
-                        if ($dtEnd) {
-                            $dtEnd->setTimezone($tz);
-                        }
+                        if ($dtEnd) $dtEnd->setTimezone($tz);
 
                         $isAllDay = false;
                         if (isset($dtStartProp['VALUE']) && (string)$dtStartProp['VALUE'] === 'DATE') {
@@ -220,37 +244,37 @@ class CalendarWidgetController extends Controller {
 
                             $events[] = [
                                 'id'       => $instanceId,
-                                'title'    => $summary,
+                                'title'    => (string)($vevent->SUMMARY ?? 'Kein Titel'),
                                 'start'    => $dtStart->format('c'),
                                 'end'      => $effectiveEnd->format('c'),
-                                'location' => $location,
+                                'location' => (string)($vevent->LOCATION ?? ''),
                                 'allDay'   => $isAllDay,
+                                'color'    => $calendarColors[$calUri] ?? $calendarColors[$calId] ?? '#0082c9',
                             ];
                         }
                     }
                 } catch (\Throwable $e) {
-                    $this->logger->error('Widget Calendar Parsing Error: ' . $e->getMessage(), ['app' => $this->appName]);
                     continue;
                 }
             }
 
+            $uniqueEvents = [];
+            foreach ($events as $ev) {
+                $uniqueEvents[$ev['id']] = $ev;
+            }
+            $events = array_values($uniqueEvents);
+
+            usort($events, fn($a, $b) => strcmp($a['start'], $b['start']));
+
+            return new DataResponse($events);
+
         } catch (\Throwable $e) {
-            return new DataResponse(['error' => $e->getMessage()], 500);
+            return new DataResponse([
+                'error' => $e->getMessage(),
+                'file'  => $e->getFile(),
+                'line'  => $e->getLine()
+            ], 500);
         }
-
-        $uniqueEvents = [];
-        foreach ($events as $ev) {
-            $uniqueEvents[$ev['id']] = $ev;
-        }
-        $events = array_values($uniqueEvents);
-
-        usort($events, function($a, $b) {
-            if (!$a['start']) return -1;
-            if (!$b['start']) return 1;
-            return strcmp($a['start'], $b['start']);
-        });
-
-        return new DataResponse($events);
     }
 
     /**
@@ -259,23 +283,12 @@ class CalendarWidgetController extends Controller {
      */
     public function getSetting(?string $key = null): DataResponse {
         $user = $this->userSession->getUser();
-        if (!$user) {
-            return new DataResponse(['error' => 'Unauthorized'], 401);
-        }
+        if (!$user) return new DataResponse(['error' => 'Unauthorized'], 401);
 
-        $key = $key ?? $this->request->getParam('key', 'defaultView');
+        $key = $key ?? (string)$this->request->getParam('key', 'defaultView');
+        $value = $this->userConfig->getValueString($user->getUID(), $this->appName, $key, '');
 
-        $value = $this->userConfig->getValueString(
-            $user->getUID(),
-            $this->appName,
-            $key,
-            'month'
-        );
-
-        return new DataResponse([
-            'key' => $key,
-            'value' => $value
-        ]);
+        return new DataResponse(['key' => $key, 'value' => $value]);
     }
 
     /**
@@ -284,30 +297,17 @@ class CalendarWidgetController extends Controller {
      */
     public function saveSetting(?string $key = null, ?string $value = null): DataResponse {
         $user = $this->userSession->getUser();
-        if (!$user) {
-            return new DataResponse(['error' => 'Unauthorized'], 401);
-        }
+        if (!$user) return new DataResponse(['error' => 'Unauthorized'], 401);
 
         $params = $this->request->getParams();
-
         $key = $key ?? $params['key'] ?? null;
         $value = $value ?? $params['value'] ?? null;
 
-        if (empty($key)) {
-            return new DataResponse(['error' => 'Missing parameter: key'], 400);
+        if (empty($key) || $value === null) {
+            return new DataResponse(['error' => 'Missing parameter'], 400);
         }
 
-        if ($value === null) {
-            return new DataResponse(['error' => 'Missing parameter: value'], 400);
-        }
-
-        $this->userConfig->setValueString(
-            $user->getUID(),
-            $this->appName,
-            (string)$key,
-            (string)$value
-        );
-
+        $this->userConfig->setValueString($user->getUID(), $this->appName, (string)$key, (string)$value);
         return new DataResponse(['success' => true]);
     }
 }

@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "Vertoon opsies",
     "Show appointment counters": "Wys afspraaktoonbanke",
     "on": "aan",
-    "off": "af"
+    "off": "af",
+    "No calendar selected in Settings": "Geen kalender gekies in Instellings nie",
+    "Displayed calendars": "Vertoonde kalenders"
 },
 "nplurals=2; plural=n != 1;");

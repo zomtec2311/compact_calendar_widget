@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "Možnosti zobrazenia",
     "Show appointment counters": "Zobraziť počítadlá schôdzok",
     "on": "na",
-    "off": "vypnuté"
+    "off": "vypnuté",
+    "No calendar selected in Settings": "V Nastaveniach nie je vybratý žiadny kalendár",
+    "Displayed calendars": "Zobrazené kalendáre"
 },
 "nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);");

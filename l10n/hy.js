@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "Ցուցադրման ընտրանքներ",
     "Show appointment counters": "Ցույց տալ նշանակման հաշվիչները",
     "on": "վրա",
-    "off": "անջատված է"
+    "off": "անջատված է",
+    "No calendar selected in Settings": "Կարգավորումներում ընտրված օրացույց չկա",
+    "Displayed calendars": "Ցուցադրված օրացույցներ"
 },
 "nplurals=2; plural=n > 1;");

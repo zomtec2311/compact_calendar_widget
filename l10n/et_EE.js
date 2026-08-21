@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "Kuvavalikud",
     "Show appointment counters": "Kuva kohtumiste loendurid",
     "on": "sisse",
-    "off": "välja"
+    "off": "välja",
+    "No calendar selected in Settings": "Seadetes pole kalendrit valitud",
+    "Displayed calendars": "Kuvatud kalendrid"
 },
 "nplurals=2; plural=n != 1;");

@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "Опции за прикажување",
     "Show appointment counters": "Прикажи шалтери за состаноци",
     "on": "на",
-    "off": "исклучен"
+    "off": "исклучен",
+    "No calendar selected in Settings": "Нема избран календар во Поставки",
+    "Displayed calendars": "Прикажани календари"
 },
 "nplurals=2; plural=n % 10 != 1 || n % 100 == 11;");

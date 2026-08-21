@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "Sýnavalkostir",
     "Show appointment counters": "Sýndu stefnumótateljara",
     "on": "á",
-    "off": "af"
+    "off": "af",
+    "No calendar selected in Settings": "Ekkert dagatal valið í stillingum",
+    "Displayed calendars": "Sýnd dagatöl"
 },
 "nplurals=2; plural=n % 10 != 1 || n % 100 == 11;");

@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "Tùy chọn hiển thị",
     "Show appointment counters": "Hiển thị quầy hẹn",
     "on": "TRÊN",
-    "off": "tắt"
+    "off": "tắt",
+    "No calendar selected in Settings": "Không có lịch nào được chọn trong Cài đặt",
+    "Displayed calendars": "Lịch được hiển thị"
 },
 "nplurals=1; plural=0;");

@@ -21,7 +21,9 @@
         "Display options": "Kuvavalikud",
         "Show appointment counters": "Kuva kohtumiste loendurid",
         "on": "sisse",
-        "off": "välja"
+        "off": "välja",
+        "No calendar selected in Settings": "Seadetes pole kalendrit valitud",
+        "Displayed calendars": "Kuvatud kalendrid"
     },
     "pluralForm": "nplurals=2; plural=n != 1;"
 }

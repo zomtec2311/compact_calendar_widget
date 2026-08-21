@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "Ekran seçimləri",
     "Show appointment counters": "Görüş sayğaclarını göstərin",
     "on": "haqqında",
-    "off": "off"
+    "off": "off",
+    "No calendar selected in Settings": "Parametrlərdə heç bir təqvim seçilməyib",
+    "Displayed calendars": "Göstərilən təqvimlər"
 },
 "nplurals=2; plural=n != 1;");

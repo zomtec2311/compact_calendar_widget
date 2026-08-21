@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "Megjelenítési lehetőségek",
     "Show appointment counters": "Időpontszámlálók megjelenítése",
     "on": "-on",
-    "off": "le"
+    "off": "le",
+    "No calendar selected in Settings": "Nincs kiválasztva naptár a Beállításokban",
+    "Displayed calendars": "Megjelenített naptárak"
 },
 "nplurals=2; plural=n != 1;");

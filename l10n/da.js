@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "Visningsmuligheder",
     "Show appointment counters": "Vis aftaletællere",
     "on": "på",
-    "off": "slukket"
+    "off": "slukket",
+    "No calendar selected in Settings": "Der er ikke valgt nogen kalender i Indstillinger",
+    "Displayed calendars": "Viste kalendere"
 },
 "nplurals=2; plural=n != 1;");

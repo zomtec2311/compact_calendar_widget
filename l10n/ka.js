@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "ჩვენების პარამეტრები",
     "Show appointment counters": "შეხვედრის მრიცხველების ჩვენება",
     "on": "on",
-    "off": "გამორთულია"
+    "off": "გამორთულია",
+    "No calendar selected in Settings": "პარამეტრებში კალენდარი არჩეული არ არის",
+    "Displayed calendars": "ნაჩვენები კალენდრები"
 },
 "nplurals=2; plural=n != 1;");

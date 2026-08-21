@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "顯示選項",
     "Show appointment counters": "顯示預約櫃檯",
     "on": "在",
-    "off": "離開"
+    "off": "離開",
+    "No calendar selected in Settings": "在「設定」中未選擇日曆",
+    "Displayed calendars": "顯示的日曆"
 },
 "nplurals=1; plural=0;");

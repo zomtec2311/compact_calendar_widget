@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "Opcje wyświetlania",
     "Show appointment counters": "Pokaż liczniki spotkań",
     "on": "NA",
-    "off": "wyłączony"
+    "off": "wyłączony",
+    "No calendar selected in Settings": "W Ustawieniach nie wybrano kalendarza",
+    "Displayed calendars": "Wyświetlane kalendarze"
 },
 "nplurals=3; plural=(n == 1) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);");

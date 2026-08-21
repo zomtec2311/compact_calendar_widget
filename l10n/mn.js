@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "Дэлгэцийн сонголтууд",
     "Show appointment counters": "Уулзалтын тоологчдыг харуулах",
     "on": "дээр",
-    "off": "унтраах"
+    "off": "унтраах",
+    "No calendar selected in Settings": "Тохиргоо хэсэгт календарь сонгоогүй",
+    "Displayed calendars": "Үзүүлсэн хуанли"
 },
 "nplurals=2; plural=n != 1;");

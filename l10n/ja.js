@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "表示オプション",
     "Show appointment counters": "予約カウンターを表示する",
     "on": "の上",
-    "off": "オフ"
+    "off": "オフ",
+    "No calendar selected in Settings": "設定でカレンダーが選択されていません",
+    "Displayed calendars": "表示されるカレンダー"
 },
 "nplurals=1; plural=0;");

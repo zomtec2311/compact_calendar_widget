@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "Опции на дисплея",
     "Show appointment counters": "Показване на броячи за срещи",
     "on": "на",
-    "off": "изключено"
+    "off": "изключено",
+    "No calendar selected in Settings": "Няма избран календар в Настройки",
+    "Displayed calendars": "Показани календари"
 },
 "nplurals=2; plural=n != 1;");

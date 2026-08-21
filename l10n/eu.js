@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "Bistaratzeko aukerak",
     "Show appointment counters": "Erakutsi hitzorduen kontagailuak",
     "on": "on",
-    "off": "itzali"
+    "off": "itzali",
+    "No calendar selected in Settings": "Ezarpenetan ez dago egutegirik hautatu",
+    "Displayed calendars": "Bistaratzen diren egutegiak"
 },
 "nplurals=2; plural=n != 1;");

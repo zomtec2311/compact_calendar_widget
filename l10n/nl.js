@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "Weergaveopties",
     "Show appointment counters": "Toon afsprakentellers",
     "on": "op",
-    "off": "uit"
+    "off": "uit",
+    "No calendar selected in Settings": "Geen agenda geselecteerd in Instellingen",
+    "Displayed calendars": "Weergegeven kalenders"
 },
 "nplurals=2; plural=n != 1;");

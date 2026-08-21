@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "Visningsalternativ",
     "Show appointment counters": "Visa mötesdiskar",
     "on": "på",
-    "off": "av"
+    "off": "av",
+    "No calendar selected in Settings": "Ingen kalender har valts i Inställningar",
+    "Displayed calendars": "Visade kalendrar"
 },
 "nplurals=2; plural=n != 1;");

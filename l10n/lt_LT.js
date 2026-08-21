@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "Ekrano parinktys",
     "Show appointment counters": "Rodyti susitikimų skaitiklius",
     "on": "įjungta",
-    "off": "išjungti"
+    "off": "išjungti",
+    "No calendar selected in Settings": "Nustatymuose nepasirinktas kalendorius",
+    "Displayed calendars": "Rodomi kalendoriai"
 },
 "nplurals=3; plural=(n % 10 == 1 && (n % 100 < 11 || n % 100 > 19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? 1 : 2);");

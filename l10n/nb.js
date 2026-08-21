@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "Visningsalternativer",
     "Show appointment counters": "Vis avtaleskranker",
     "on": "på",
-    "off": "av"
+    "off": "av",
+    "No calendar selected in Settings": "Ingen kalender valgt i Innstillinger",
+    "Displayed calendars": "Viste kalendere"
 },
 "nplurals=2; plural=n != 1;");

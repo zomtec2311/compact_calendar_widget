@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "ಪ್ರದರ್ಶನ ಆಯ್ಕೆಗಳು",
     "Show appointment counters": "ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್ ಕೌಂಟರ್‌ಗಳನ್ನು ತೋರಿಸಿ",
     "on": "ಮೇಲೆ",
-    "off": "ಆಫ್"
+    "off": "ಆಫ್",
+    "No calendar selected in Settings": "ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಯಾವುದೇ ಕ್ಯಾಲೆಂಡರ್ ಆಯ್ಕೆ ಮಾಡಲಾಗಿಲ್ಲ",
+    "Displayed calendars": "ಕ್ಯಾಲೆಂಡರ್‌ಗಳನ್ನು ಪ್ರದರ್ಶಿಸಲಾಗಿದೆ"
 },
 "nplurals=2; plural=n > 1;");

@@ -21,7 +21,9 @@
         "Display options": "ជម្រើសបង្ហាញ",
         "Show appointment counters": "បង្ហាញបញ្ជរណាត់ជួប",
         "on": "នៅលើ",
-        "off": "បិទ"
+        "off": "បិទ",
+        "No calendar selected in Settings": "មិនបានជ្រើសរើសប្រតិទិននៅក្នុងការកំណត់ទេ។",
+        "Displayed calendars": "បាន​បង្ហាញ​ប្រតិទិន"
     },
     "pluralForm": "nplurals=1; plural=0;"
 }

@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "Opsi tampilan",
     "Show appointment counters": "Tampilkan penghitung janji temu",
     "on": "pada",
-    "off": "mati"
+    "off": "mati",
+    "No calendar selected in Settings": "Tidak ada kalender yang dipilih di Pengaturan",
+    "Displayed calendars": "Kalender yang ditampilkan"
 },
 "nplurals=1; plural=0;");

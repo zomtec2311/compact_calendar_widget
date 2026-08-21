@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "디스플레이 옵션",
     "Show appointment counters": "약속 카운터 표시",
     "on": "~에",
-    "off": "끄다"
+    "off": "끄다",
+    "No calendar selected in Settings": "설정에서 선택한 캘린더가 없습니다.",
+    "Displayed calendars": "표시된 달력"
 },
 "nplurals=1; plural=0;");

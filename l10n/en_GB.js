@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "Display options",
     "Show appointment counters": "Show appointment counters",
     "on": "on",
-    "off": "off"
+    "off": "off",
+    "No calendar selected in Settings": "No calendar selected in Settings",
+    "Displayed calendars": "Displayed calendars"
 },
 "nplurals=2; plural=(n != 1);");

@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "Montraj opcioj",
     "Show appointment counters": "Montru rendevuajn nombrilojn",
     "on": "on",
-    "off": "for"
+    "off": "for",
+    "No calendar selected in Settings": "Neniu kalendaro elektita en Agordoj",
+    "Displayed calendars": "Montritaj kalendaroj"
 },
 "nplurals=2; plural=n != 1;");

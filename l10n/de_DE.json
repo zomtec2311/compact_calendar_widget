@@ -13,15 +13,17 @@
         "Done": "Erledigt",
         "My Appointments": "Meine Termine",
         "Widget settings": "Widget-Einstellungen",
-        "Customize the appearance and default behavior of the widget.": "Erscheinungsbild und das Standardverhalten des Widgets anpassen.",
+        "Customize the appearance and default behavior of the widget.": "Passen Sie das Erscheinungsbild und das Standardverhalten des Widgets an.",
         "Default view": "Standardansicht",
         "Color scheme for the days with appointments": "Farbschema für die Tage mit Terminen",
         "standard": "Standard",
         "colorful": "bunt",
         "Display options": "Anzeigeoptionen",
-        "Show appointment counters": "Terminzähler anzeigen",
+        "Show appointment counters": "Terminschalter anzeigen",
         "on": "An",
-        "off": "Aus"
+        "off": "aus",
+        "No calendar selected in Settings": "In den Einstellungen ist kein Kalender ausgewählt",
+        "Displayed calendars": "Angezeigte Kalender"
     },
     "pluralForm": "nplurals=2; plural=(n != 1);"
 }

@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "Opcions de visualització",
     "Show appointment counters": "Mostra els comptadors de cites",
     "on": "activat",
-    "off": "apagat"
+    "off": "apagat",
+    "No calendar selected in Settings": "No s'ha seleccionat cap calendari a Configuració",
+    "Displayed calendars": "Calendaris mostrats"
 },
 "nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);");

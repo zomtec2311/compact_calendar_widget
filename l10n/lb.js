@@ -22,6 +22,8 @@ OC.L10N.register(
     "Display options": "Affichage Optiounen",
     "Show appointment counters": "Show Rendez counters",
     "on": "op",
-    "off": "aus"
+    "off": "aus",
+    "No calendar selected in Settings": "Kee Kalenner ausgewielt an Astellungen",
+    "Displayed calendars": "Kalenneren ugewisen"
 },
 "nplurals=2; plural=n != 1;");
