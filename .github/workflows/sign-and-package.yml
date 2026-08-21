@@ -2,7 +2,8 @@ name: Sign and Package Nextcloud App
 
 on:
   release:
-    types: [published]
+    types:
+      - published
 
   workflow_dispatch:
 
@@ -16,10 +17,11 @@ env:
 
 jobs:
   build-and-sign:
+    name: Build, sign and package app
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           path: ${{ env.APP_DIR }}
@@ -45,13 +47,15 @@ jobs:
             xmlwriter,
             zip,
             zlib
+          coverage: none
 
-      - name: Install Nextcloud OCC tooling
+      - name: Download Nextcloud OCC tooling
         shell: bash
         run: |
           set -euo pipefail
 
           mkdir -p nextcloud
+
           cd nextcloud
 
           wget --quiet --show-progress \
@@ -59,7 +63,7 @@ jobs:
 
           tar -xjf "nextcloud-${NEXTCLOUD_VERSION}.tar.bz2"
 
-      - name: Prepare signing certificates
+      - name: Prepare signing files
         id: certificates
         shell: bash
         env:
@@ -68,33 +72,66 @@ jobs:
         run: |
           set -euo pipefail
 
-          if [[ -z "$APP_KEY" || -z "$APP_CERT" ]]; then
+          if [[ -z "${APP_KEY}" || -z "${APP_CERT}" ]]; then
             echo "::warning::NEXTCLOUD_APP_KEY oder NEXTCLOUD_APP_CERT fehlt bzw. ist leer."
             echo "::warning::Die App wird unsigniert paketiert."
-            echo "signing_available=false" >> "$GITHUB_OUTPUT"
+            echo "signing_available=false" >> "${GITHUB_OUTPUT}"
             exit 0
           fi
 
-          printf '%s\n' "$APP_KEY" > app.key
-          printf '%s\n' "$APP_CERT" > app.crt
+          printf '%s\n' "${APP_KEY}" > app.key
+          printf '%s\n' "${APP_CERT}" > app.crt
 
           chmod 600 app.key app.crt
 
-          echo "Signing-Secrets vorhanden."
-          echo "signing_available=true" >> "$GITHUB_OUTPUT"
+          echo "Signing-Secrets sind vorhanden."
+          echo "signing_available=true" >> "${GITHUB_OUTPUT}"
 
-      - name: Sign the app
+      - name: Remove files excluded from the archive
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          # Diese Dateien werden nur aus der temporären
+          # GitHub-Actions-Kopie entfernt, nicht aus dem Repository.
+          rm -f \
+            "${APP_DIR}/compact_calendar_widget-hover.png" \
+            "${APP_DIR}/compact_calendar_widget-month.png" \
+            "${APP_DIR}/compact_calendar_widget-week.png" \
+            "${APP_DIR}/compact_calendar_widget-year.png" \
+            "${APP_DIR}/hover-appointments.png" \
+            "${APP_DIR}/monthly-standard-without.png" \
+            "${APP_DIR}/settings.png" \
+            "${APP_DIR}/weekly-standard-without.png" \
+            "${APP_DIR}/yearly-colorful-with.png" \
+            "${APP_DIR}/yearly-standard-with.png" \
+            "${APP_DIR}/yearly-standard-without.png"
+
+      - name: Remove development files from packaging copy
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          rm -rf \
+            "${APP_DIR}/.git" \
+            "${APP_DIR}/.github"
+
+          rm -f "${APP_DIR}/.gitignore"
+
+      - name: Sign app
         if: steps.certificates.outputs.signing_available == 'true'
         shell: bash
         run: |
           set -euo pipefail
 
-          php "nextcloud/nextcloud-${NEXTCLOUD_VERSION}/occ" integrity:sign-app \
-            --privateKey="app.key" \
-            --certificate="app.crt" \
-            --path="${APP_DIR}"
+          php "nextcloud/nextcloud-${NEXTCLOUD_VERSION}/occ" \
+            integrity:sign-app \
+            --privateKey="${GITHUB_WORKSPACE}/app.key" \
+            --certificate="${GITHUB_WORKSPACE}/app.crt" \
+            --path="${GITHUB_WORKSPACE}/${APP_DIR}"
 
-      - name: Package app archive
+      - name: Determine package tag
+        id: package_tag
         shell: bash
         env:
           RELEASE_TAG: ${{ github.event.release.tag_name }}
@@ -102,62 +139,66 @@ jobs:
         run: |
           set -euo pipefail
 
-          # Git- und Entwicklungsdateien aus dem Archiv entfernen
-          rm -rf "${APP_DIR}/.git" \
-                 "${APP_DIR}/.github" \
-                 "${APP_DIR}/.gitignore"
+          if [[ -n "${RELEASE_TAG}" ]]; then
+            TAG="${RELEASE_TAG}"
+          else
+            TAG="${REF_NAME}"
+          fi
 
-          # Nicht benötigte Bilddateien aus dem Archiv entfernen
-          rm -f "${APP_DIR}/compact_calendar_widget-hover.png" \
-                "${APP_DIR}/compact_calendar_widget-month.png" \
-                "${APP_DIR}/compact_calendar_widget-week.png" \
-                "${APP_DIR}/compact_calendar_widget-year.png" \
-                "${APP_DIR}/hover-appointments.png" \
-                "${APP_DIR}/monthly-standard-without.png" \
-                "${APP_DIR}/settings.png" \
-                "${APP_DIR}/weekly-standard-without.png" \
-                "${APP_DIR}/yearly-colorful-with.png" \
-                "${APP_DIR}/yearly-standard-with.png" \
-                "${APP_DIR}/yearly-standard-without.png"
-
-          # Bei Releases den Release-Tag verwenden.
-          # Bei manuellen Läufen Branch- oder Tag-Namen verwenden.
-          TAG="${RELEASE_TAG:-$REF_NAME}"
-
-          # Problematische Zeichen für Dateinamen ersetzen
+          # Für Dateinamen ungeeignete Zeichen ersetzen.
           TAG="${TAG//\//-}"
           TAG="${TAG// /-}"
+          TAG="${TAG//:/-}"
 
-          if [[ "${{ steps.certificates.outputs.signing_available }}" == "true" ]]; then
+          if [[ -z "${TAG}" ]]; then
+            echo "::error::Es konnte kein Release- oder Ref-Name ermittelt werden."
+            exit 1
+          fi
+
+          echo "tag=${TAG}" >> "${GITHUB_OUTPUT}"
+
+      - name: Create app archive
+        id: package
+        shell: bash
+        env:
+          SIGNING_AVAILABLE: ${{ steps.certificates.outputs.signing_available }}
+          TAG: ${{ steps.package_tag.outputs.tag }}
+        run: |
+          set -euo pipefail
+
+          if [[ "${SIGNING_AVAILABLE}" == "true" ]]; then
             PACKAGE_NAME="${APP_DIR}_${TAG}.tar.gz"
           else
             PACKAGE_NAME="unsigned_${APP_DIR}_${TAG}.tar.gz"
           fi
 
-          tar -czf "$PACKAGE_NAME" "$APP_DIR"
+          tar -czf "${PACKAGE_NAME}" "${APP_DIR}"
 
-          echo "PACKAGE_NAME=$PACKAGE_NAME" >> "$GITHUB_ENV"
-          echo "Erzeugtes Archiv: $PACKAGE_NAME"
+          echo "package_name=${PACKAGE_NAME}" >> "${GITHUB_OUTPUT}"
+          echo "Erzeugtes Archiv: ${PACKAGE_NAME}"
 
-      - name: Upload asset to release
+      - name: Upload archive to GitHub Release
         if: github.event_name == 'release'
         uses: softprops/action-gh-release@v2
         with:
-          files: ${{ env.PACKAGE_NAME }}
+          tag_name: ${{ github.event.release.tag_name }}
+          files: ${{ steps.package.outputs.package_name }}
           fail_on_unmatched_files: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload artifact from manual run
+      - name: Upload archive as workflow artifact
         if: github.event_name == 'workflow_dispatch'
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.PACKAGE_NAME }}
-          path: ${{ env.PACKAGE_NAME }}
+          name: ${{ steps.package.outputs.package_name }}
+          path: ${{ steps.package.outputs.package_name }}
           if-no-files-found: error
 
       - name: Remove signing files
         if: always()
         shell: bash
         run: |
-          rm -f app.key app.crt
+          rm -f \
+            "${GITHUB_WORKSPACE}/app.key" \
+            "${GITHUB_WORKSPACE}/app.crt"
