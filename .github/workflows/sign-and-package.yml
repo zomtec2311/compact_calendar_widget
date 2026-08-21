@@ -4,7 +4,6 @@ on:
   release:
     types:
       - published
-
   workflow_dispatch:
 
 permissions:
@@ -13,18 +12,20 @@ permissions:
 env:
   PHP_VERSION: '8.5'
   NEXTCLOUD_VERSION: '34.0.3'
-  APP_DIR: ${{ github.event.repository.name }}
+
+  # Muss exakt der App-ID aus appinfo/info.xml entsprechen
+  APP_ID: ${{ github.event.repository.name }}
 
 jobs:
   build-and-sign:
-    name: Build, sign and package app
+    name: Build, sign and publish app
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          path: ${{ env.APP_DIR }}
+          path: ${{ env.APP_ID }}
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
@@ -55,7 +56,6 @@ jobs:
           set -euo pipefail
 
           mkdir -p nextcloud
-
           cd nextcloud
 
           wget --quiet --show-progress \
@@ -75,48 +75,45 @@ jobs:
           if [[ -z "${APP_KEY}" || -z "${APP_CERT}" ]]; then
             echo "::warning::NEXTCLOUD_APP_KEY oder NEXTCLOUD_APP_CERT fehlt bzw. ist leer."
             echo "::warning::Die App wird unsigniert paketiert."
+
             echo "signing_available=false" >> "${GITHUB_OUTPUT}"
             exit 0
           fi
 
-          printf '%s\n' "${APP_KEY}" > app.key
-          printf '%s\n' "${APP_CERT}" > app.crt
+          printf '%s\n' "${APP_KEY}" > "${GITHUB_WORKSPACE}/app.key"
+          printf '%s\n' "${APP_CERT}" > "${GITHUB_WORKSPACE}/app.crt"
 
-          chmod 600 app.key app.crt
+          chmod 600 \
+            "${GITHUB_WORKSPACE}/app.key" \
+            "${GITHUB_WORKSPACE}/app.crt"
 
           echo "Signing-Secrets sind vorhanden."
           echo "signing_available=true" >> "${GITHUB_OUTPUT}"
 
-      - name: Remove files excluded from the archive
+      - name: Remove excluded and dev files
         shell: bash
         run: |
           set -euo pipefail
 
-          # Diese Dateien werden nur aus der temporären
-          # GitHub-Actions-Kopie entfernt, nicht aus dem Repository.
+          # Nicht benötigte Bild-Assets entfernen
           rm -f \
-            "${APP_DIR}/compact_calendar_widget-hover.png" \
-            "${APP_DIR}/compact_calendar_widget-month.png" \
-            "${APP_DIR}/compact_calendar_widget-week.png" \
-            "${APP_DIR}/compact_calendar_widget-year.png" \
-            "${APP_DIR}/hover-appointments.png" \
-            "${APP_DIR}/monthly-standard-without.png" \
-            "${APP_DIR}/settings.png" \
-            "${APP_DIR}/weekly-standard-without.png" \
-            "${APP_DIR}/yearly-colorful-with.png" \
-            "${APP_DIR}/yearly-standard-with.png" \
-            "${APP_DIR}/yearly-standard-without.png"
+            "${APP_ID}/compact_calendar_widget-hover.png" \
+            "${APP_ID}/compact_calendar_widget-month.png" \
+            "${APP_ID}/compact_calendar_widget-week.png" \
+            "${APP_ID}/compact_calendar_widget-year.png" \
+            "${APP_ID}/hover-appointments.png" \
+            "${APP_ID}/monthly-standard-without.png" \
+            "${APP_ID}/settings.png" \
+            "${APP_ID}/weekly-standard-without.png" \
+            "${APP_ID}/yearly-colorful-with.png" \
+            "${APP_ID}/yearly-standard-with.png" \
+            "${APP_ID}/yearly-standard-without.png"
 
-      - name: Remove development files from packaging copy
-        shell: bash
-        run: |
-          set -euo pipefail
-
+          # Dev-Dateien entfernen
           rm -rf \
-            "${APP_DIR}/.git" \
-            "${APP_DIR}/.github"
-
-          rm -f "${APP_DIR}/.gitignore"
+            "${APP_ID}/.git" \
+            "${APP_ID}/.github" \
+            "${APP_ID}/.gitignore"
 
       - name: Sign app
         if: steps.certificates.outputs.signing_available == 'true'
@@ -128,7 +125,7 @@ jobs:
             integrity:sign-app \
             --privateKey="${GITHUB_WORKSPACE}/app.key" \
             --certificate="${GITHUB_WORKSPACE}/app.crt" \
-            --path="${GITHUB_WORKSPACE}/${APP_DIR}"
+            --path="${GITHUB_WORKSPACE}/${APP_ID}"
 
       - name: Determine package tag
         id: package_tag
@@ -139,13 +136,9 @@ jobs:
         run: |
           set -euo pipefail
 
-          if [[ -n "${RELEASE_TAG}" ]]; then
-            TAG="${RELEASE_TAG}"
-          else
-            TAG="${REF_NAME}"
-          fi
+          TAG="${RELEASE_TAG:-$REF_NAME}"
 
-          # Für Dateinamen ungeeignete Zeichen ersetzen.
+          # Ungültige Zeichen ersetzen
           TAG="${TAG//\//-}"
           TAG="${TAG// /-}"
           TAG="${TAG//:/-}"
@@ -167,12 +160,13 @@ jobs:
           set -euo pipefail
 
           if [[ "${SIGNING_AVAILABLE}" == "true" ]]; then
-            PACKAGE_NAME="${APP_DIR}_${TAG}.tar.gz"
+            PACKAGE_NAME="${APP_ID}_${TAG}.tar.gz"
           else
-            PACKAGE_NAME="unsigned_${APP_DIR}_${TAG}.tar.gz"
+            PACKAGE_NAME="unsigned_${APP_ID}_${TAG}.tar.gz"
           fi
 
-          tar -czf "${PACKAGE_NAME}" "${APP_DIR}"
+          # Erzeugt das Archiv mit dem Stammverzeichnis = APP_ID
+          tar -czf "${PACKAGE_NAME}" "${APP_ID}"
 
           echo "package_name=${PACKAGE_NAME}" >> "${GITHUB_OUTPUT}"
           echo "Erzeugtes Archiv: ${PACKAGE_NAME}"
@@ -186,6 +180,22 @@ jobs:
           fail_on_unmatched_files: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload signed app to Nextcloud App Store
+        if: >
+          github.event_name == 'release' &&
+          steps.certificates.outputs.signing_available == 'true' &&
+          !startsWith(steps.package.outputs.package_name, 'unsigned_')
+        uses: R0Wi/nextcloud-appstore-push-action@v1
+        with:
+          app_name: ${{ env.APP_ID }}
+          appstore_token: ${{ secrets.APPSTORE_TOKEN }}
+          app_private_key: ${{ secrets.NEXTCLOUD_APP_KEY }}
+          download_url: >-
+            https://github.com/${{ github.repository }}/releases/download/${{
+            github.event.release.tag_name }}/${{
+            steps.package.outputs.package_name }}
+          nightly: ${{ github.event.release.prerelease }}
 
       - name: Upload archive as workflow artifact
         if: github.event_name == 'workflow_dispatch'
