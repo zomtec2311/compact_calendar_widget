@@ -13,7 +13,7 @@ A modern and compact calendar widget for your Nextcloud Dashboard that gives you
 - 🚦 **Event Heatmap:** Visual indicators show you at a glance how busy your days are based on appointment count.
 - 💬 **Interactive Popovers:** Hover over any day to instantly view detailed event info, times, and locations.
 - 📱 **Mobile Friendly:** Optimized touch interaction for mobile devices.
-- ⚙️ **Configurable Settings:** Easily customize views, personal calendars selectable, default themes, and counters directly from the widget.
+- ⚙️ **Configurable Settings:** Easily customize views, default themes, and counters directly from the widget. Personal calendars are selectable.
 
 > ℹ️ **Note:** This widget works best when used alongside the official **Nextcloud Calendar** app to unlock its full potential and display all your events smoothly.
 

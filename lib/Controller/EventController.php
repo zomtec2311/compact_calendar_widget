@@ -34,6 +34,7 @@ use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\IAppConfig;
 use OCP\Calendar\IManager;
+use OCP\Config\IUserConfig;
 use OCP\Calendar\ICalendar;
 use Psr\Log\LoggerInterface;
 
@@ -45,7 +46,8 @@ class EventController extends Controller {
         private IUserSession $userSession,
         private IManager $calendarManager,
         private readonly LoggerInterface $logger,
-        private IAppConfig $appConfig
+        private IAppConfig $appConfig,
+        private IUserConfig $userConfig,
     ) {
         parent::__construct($appName, $request);
     }
@@ -78,7 +80,7 @@ class EventController extends Controller {
             ];
         }
 
-        $rawSelected = $this->appConfig->getValueString($this->appName, $user->getUID() . '_selected_calendars', '[]');
+        $rawSelected = $this->userConfig->getValueString($user->getUID(), $this->appName, 'selected_calendars', '[]');
         $selected = json_decode($rawSelected, true) ?: [];
 
         return new DataResponse([
@@ -92,12 +94,7 @@ class EventController extends Controller {
         if (!$user) {
             return new DataResponse([], 401);
         }
-
-        $this->appConfig->setValueString(
-            $this->appName,
-            $user->getUID() . '_selected_calendars',
-            json_encode($selected)
-        );
+        $this->userConfig->getValueString($user->getUID(), $this->appName, 'selected_calendars', json_encode($selected));
 
         return new DataResponse(['status' => 'success']);
     }
