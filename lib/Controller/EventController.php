@@ -32,7 +32,6 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
 use OCP\IUserSession;
-use OCP\IAppConfig;
 use OCP\Calendar\IManager;
 use OCP\Config\IUserConfig;
 use OCP\Calendar\ICalendar;
@@ -46,7 +45,6 @@ class EventController extends Controller {
         private IUserSession $userSession,
         private IManager $calendarManager,
         private readonly LoggerInterface $logger,
-        private IAppConfig $appConfig,
         private IUserConfig $userConfig,
     ) {
         parent::__construct($appName, $request);
@@ -76,12 +74,12 @@ class EventController extends Controller {
                 'id' => $calendar->getKey(),
                 'displayname' => $calendar->getDisplayName(),
                 'uri' => $uri,
-                'color' => method_exists($calendar, 'getColor') ? $calendar->getColor() : null,
+                'color' => method_exists($calendar, 'getDisplayColor') ? $calendar->getDisplayColor() : (method_exists($calendar, 'getCalendarColor') ? $calendar->getCalendarColor() : '#0082c9'),
             ];
         }
 
-        $rawSelected = $this->userConfig->getValueString($user->getUID(), $this->appName, 'selected_calendars', '[]');
-        $selected = json_decode($rawSelected, true) ?: [];
+        $rawSelected = $this->userConfig->getValueString($user->getUID(), $this->appName, 'selected_calendars', 'null');
+        $selected = json_decode($rawSelected, true);
 
         return new DataResponse([
             'calendars' => $calendars,
@@ -94,7 +92,7 @@ class EventController extends Controller {
         if (!$user) {
             return new DataResponse([], 401);
         }
-        $this->userConfig->getValueString($user->getUID(), $this->appName, 'selected_calendars', json_encode($selected));
+        $this->userConfig->setValueString($user->getUID(), $this->appName, 'selected_calendars', json_encode($selected));
 
         return new DataResponse(['status' => 'success']);
     }
