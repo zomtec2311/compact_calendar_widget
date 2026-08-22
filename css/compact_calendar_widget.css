@@ -327,7 +327,7 @@
 
 .day-cell.has-events:hover,
 .year-day-cell.has-events:hover {
-	filter: brightness(1.25);
+	opacity: 0.9;
 }
 
 .day-cell.has-events.is-today,
@@ -369,7 +369,6 @@
 	flex-direction: column;
 }
 
-/* UNSICHTBARE BRÜCKE: Verhindert Schließen beim Bewegen der Maus zum Popover */
 .event-popover::before {
 	content: '';
 	position: absolute;
@@ -439,10 +438,9 @@ hr.popover-divider {
 	max-height: 180px;
 	scrollbar-width: thin;
 
-	/* MOBIL- & BROWSER-SCHUTZ GEGEN SCROLL-CHAINING */
-	-webkit-overflow-scrolling: touch; /* Flüssiges Touch-Scrollen (iOS Safari) */
-	overscroll-behavior: contain;      /* Standard: Verhindert Durchreichen des Scrollens an Elternelemente (Chrome, Firefox, Safari 16+, Edge) */
-	touch-action: pan-y;               /* Verhindert horizontales Wischen/Gestenübertragung auf Smartphones */
+	-webkit-overflow-scrolling: touch;
+	overscroll-behavior: contain;
+	touch-action: pan-y;
 }
 
 .event-popover ul::-webkit-scrollbar {
@@ -770,4 +768,27 @@ hr.popover-divider {
 	font-size: 12px;
 	color: var(--color-text-maxcontrast, #767676);
 	font-style: italic;
+}
+
+.event-item {
+    padding: 6px 8px;
+    margin-bottom: 4px;
+    border-radius: 4px;
+    border-left: 4px solid var(--color-primary);
+    color: var(--color-main-text);
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.event-time {
+    font-size: 0.7rem;
+    font-weight: 700;
+    opacity: 0.85;
+    color: var(--color-text-maxcontrast, var(--color-main-text));
+    margin-bottom: 2px;
+}
+
+.event-summary {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-main-text);
 }

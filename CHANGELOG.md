@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.0.3
+
+### Fixed
+- bug fixed selected calendars
+
+### Added
+- New feature: personal calendars with original color in the settings
+
+### Changed
+- switched from database queries to core libraries
+
 ## 1.0.2
 
 ### Added

@@ -30,6 +30,7 @@ namespace OCA\CompactCalendarWidget\Controller;
 
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\Calendar\IManager;
@@ -50,6 +51,7 @@ class EventController extends Controller {
         parent::__construct($appName, $request);
     }
 
+    #[NoAdminRequired]
     public function getCalendars(): DataResponse {
         $user = $this->userSession->getUser();
         if (!$user) {
@@ -74,7 +76,7 @@ class EventController extends Controller {
                 'id' => $calendar->getKey(),
                 'displayname' => $calendar->getDisplayName(),
                 'uri' => $uri,
-                'color' => method_exists($calendar, 'getDisplayColor') ? $calendar->getDisplayColor() : (method_exists($calendar, 'getCalendarColor') ? $calendar->getCalendarColor() : '#0082c9'),
+                'color' => method_exists($calendar, 'getDisplayColor') ? $calendar->getDisplayColor() : (method_exists($calendar, 'getCalendarColor') ? $calendar->getCalendarColor() : '#82b8d6'),
             ];
         }
 
@@ -87,6 +89,7 @@ class EventController extends Controller {
         ]);
     }
 
+    #[NoAdminRequired]
     public function saveSelectedCalendars(array $selected): DataResponse {
         $user = $this->userSession->getUser();
         if (!$user) {
