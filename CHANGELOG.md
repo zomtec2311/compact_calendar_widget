@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.4
+
+### Added
+- l10n: new phrases in language files
+
+### Changed
+- using NcPopover instead of own css/js popups
+
 ## 1.0.3
 
 ### Fixed

@@ -26,7 +26,7 @@ Ein modernes und kompaktes Kalender-Widget für Ihr Nextcloud-Dashboard, das Ihn
 - ⚙️ **Konfigurierbare Einstellungen:** Einfach Ansichten, Standarddesigns und Zähler direkt aus dem Widget anpassen. Persönliche Kalender sind auswählbar.
 
 > ℹ️ **Hinweis:** Dieses Widget funktioniert am besten, wenn es zusammen mit der offiziellen **Nextcloud Kalender**-App verwendet wird, um sein volles Potenzial freizuschalten und alle Ihre Veranstaltungen reibungslos anzuzeigen.]]></description>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <licence>agpl</licence>
     <author mail="wtoedt@gmail.com" homepage="https://github.com/zomtec2311/logcleaner">Wolfgang Tödt</author>
     <namespace>CompactCalendarWidget</namespace>
