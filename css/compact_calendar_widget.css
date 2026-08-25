@@ -355,12 +355,32 @@
 	box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
 	border-radius: 8px;
 	padding: 8px 10px;
-	z-index: 9999;
+	z-index: 10000 !important;
 	text-align: left;
 	font-family: var(--font-family, sans-serif) !important;
 	font-size: 0.8rem !important;
 	color: var(--color-main-text, #111111) !important;
 	pointer-events: auto;
+	white-space: normal;
+	opacity: 1 !important;
+	box-sizing: border-box !important;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	flex-direction: column;
+}
+
+.event-popover-year {
+
+	background: var(--color-main-background, #ffffff) !important;
+	box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+	border-radius: 8px;
+	padding: 8px 10px;
+
+	text-align: left;
+	font-family: var(--font-family, sans-serif) !important;
+	font-size: 0.8rem !important;
+	color: var(--color-main-text, #111111) !important;
+
 	white-space: normal;
 	opacity: 1 !important;
 	box-sizing: border-box !important;
@@ -472,6 +492,53 @@ hr.popover-divider {
 .event-popover li .location {
 	opacity: 0.85;
 	font-size: 0.7rem;
+}
+
+
+.event-popover-year ul {
+	list-style: none !important;
+	padding: 0 4px 0 0 !important;
+	margin: 0 !important;
+	overflow-y: auto !important;
+	/*max-height: 180px;*/
+	scrollbar-width: thin;
+
+	-webkit-overflow-scrolling: touch;
+	overscroll-behavior: contain;
+	touch-action: pan-y;
+}
+
+.event-popover-year ul::-webkit-scrollbar {
+	width: 4px;
+}
+
+.event-popover-year ul::-webkit-scrollbar-thumb {
+	background: rgba(0, 0, 0, 0.25);
+	border-radius: 4px;
+}
+
+.event-popover-year li {
+	margin-bottom: 6px !important;
+	padding: 10px !important;
+	white-space: normal !important;
+	word-break: break-word !important;
+	color: var(--color-main-text, #333333) !important;
+	font-weight: 600 !important;
+	font-size: 0.75rem !important;
+}
+
+.event-popover-year li strong,
+.event-popover-year li b {
+	font-weight: 700 !important;
+	color: var(--color-main-text, #111111) !important;
+	display: inline-block;
+	margin-right: 4px;
+}
+
+.event-popover-year li .location {
+	opacity: 0.85;
+	font-size: 0.7rem;
+	margin: 0px 10px;
 }
 
 .location {
