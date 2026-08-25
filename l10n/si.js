@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "මත",
     "off": "අක්රිය",
     "No calendar selected in Settings": "සැකසීම් තුළ දින දර්ශනයක් තෝරා නැත",
-    "Displayed calendars": "දින දර්ශන පෙන්වයි"
+    "Displayed calendars": "දින දර්ශන පෙන්වයි",
+    "All day": "All day",
+    "Loading calendars...": "Loading calendars...",
+    "Previous": "Previous",
+    "Next": "Next"
 },
 "nplurals=2; plural=n > 1;");

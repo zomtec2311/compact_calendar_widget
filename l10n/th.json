@@ -23,7 +23,11 @@
         "on": "บน",
         "off": "ปิด",
         "No calendar selected in Settings": "ไม่ได้เลือกปฏิทินในการตั้งค่า",
-        "Displayed calendars": "ปฏิทินที่แสดง"
+        "Displayed calendars": "ปฏิทินที่แสดง",
+        "All day": "ทั้งวัน",
+        "Loading calendars...": "กําลังโหลดปฏิทิน...",
+        "Previous": "ก่อนหน้า",
+        "Next": "ต่อไป"
     },
     "pluralForm": "nplurals=1; plural=0;"
 }

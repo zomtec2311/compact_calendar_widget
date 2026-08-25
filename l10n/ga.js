@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "ar",
     "off": "as",
     "No calendar selected in Settings": "Níl aon fhéilire roghnaithe sna Socruithe",
-    "Displayed calendars": "Féilirí ar taispeáint"
+    "Displayed calendars": "Féilirí ar taispeáint",
+    "All day": "All day",
+    "Loading calendars...": "Loading calendars...",
+    "Previous": "Previous",
+    "Next": "Next"
 },
 "nplurals=5; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n >= 3 && n <= 6) ? 2 : ((n >= 7 && n <= 10) ? 3 : 4)));");

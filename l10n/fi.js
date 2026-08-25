@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "päällä",
     "off": "pois",
     "No calendar selected in Settings": "Kalenteria ei ole valittu asetuksista",
-    "Displayed calendars": "Näytetään kalentereita"
+    "Displayed calendars": "Näytetään kalentereita",
+    "All day": "Koko päivän",
+    "Loading calendars...": "Ladataan kalenteria...",
+    "Previous": "Edellinen",
+    "Next": "Seuraava"
 },
 "nplurals=2; plural=n != 1;");

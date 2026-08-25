@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "ສຸດ",
     "off": "ປິດ",
     "No calendar selected in Settings": "ບໍ່ໄດ້ເລືອກປະຕິທິນໃນການຕັ້ງຄ່າ",
-    "Displayed calendars": "ປະຕິທິນທີ່ສະແດງ"
+    "Displayed calendars": "ປະຕິທິນທີ່ສະແດງ",
+    "All day": "All day",
+    "Loading calendars...": "Loading calendars...",
+    "Previous": "Previous",
+    "Next": "Next"
 },
 "nplurals=1; plural=0;");

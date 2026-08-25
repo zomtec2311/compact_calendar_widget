@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "ymlaen",
     "off": "i ffwrdd",
     "No calendar selected in Settings": "Dim calendr wedi'i ddewis yn y Gosodiadau",
-    "Displayed calendars": "Calendrau wedi'u harddangos"
+    "Displayed calendars": "Calendrau wedi'u harddangos",
+    "All day": "All day",
+    "Loading calendars...": "Loading calendars...",
+    "Previous": "Previous",
+    "Next": "Next"
 },
 "nplurals=6; plural=(n == 0) ? 0 : ((n == 1) ? 1 : ((n == 2) ? 2 : ((n == 3) ? 3 : ((n == 6) ? 4 : 5))));");

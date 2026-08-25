@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "επί",
     "off": "μακριά από",
     "No calendar selected in Settings": "Δεν έχει επιλεγεί ημερολόγιο στις Ρυθμίσεις",
-    "Displayed calendars": "Εμφανιζόμενα ημερολόγια"
+    "Displayed calendars": "Εμφανιζόμενα ημερολόγια",
+    "All day": "Όλη μέρα",
+    "Loading calendars...": "Φόρτωση ημερολογίων...",
+    "Previous": "Προηγούμενο",
+    "Next": "Επόμενο"
 },
 "nplurals=2; plural=n != 1;");

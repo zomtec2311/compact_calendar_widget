@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "дээр",
     "off": "унтраах",
     "No calendar selected in Settings": "Тохиргоо хэсэгт календарь сонгоогүй",
-    "Displayed calendars": "Үзүүлсэн хуанли"
+    "Displayed calendars": "Үзүүлсэн хуанли",
+    "All day": "All day",
+    "Loading calendars...": "Loading calendars...",
+    "Previous": "Previous",
+    "Next": "Next"
 },
 "nplurals=2; plural=n != 1;");

@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "na",
     "off": "vypnuto",
     "No calendar selected in Settings": "V Nastavení není vybrán žádný kalendář",
-    "Displayed calendars": "Zobrazené kalendáře"
+    "Displayed calendars": "Zobrazené kalendáře",
+    "All day": "Celý den",
+    "Loading calendars...": "Nahrávám kalendáře...",
+    "Previous": "Předchozí",
+    "Next": "Další"
 },
 "nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);");

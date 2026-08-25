@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "pe",
     "off": "oprit",
     "No calendar selected in Settings": "Niciun calendar selectat în Setări",
-    "Displayed calendars": "Calendare afișate"
+    "Displayed calendars": "Calendare afișate",
+    "All day": "Toată ziua",
+    "Loading calendars...": "Se încarcă calendarele...",
+    "Previous": "Precedent",
+    "Next": "Înainte"
 },
 "nplurals=3; plural=(n == 1) ? 0 : ((n == 0 || n != 1 && n % 100 >= 1 && n % 100 <= 19) ? 1 : 2);");

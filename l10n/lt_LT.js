@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "įjungta",
     "off": "išjungti",
     "No calendar selected in Settings": "Nustatymuose nepasirinktas kalendorius",
-    "Displayed calendars": "Rodomi kalendoriai"
+    "Displayed calendars": "Rodomi kalendoriai",
+    "All day": "Visą dieną",
+    "Loading calendars...": "Kalendoriai...",
+    "Previous": "Ankstesnis",
+    "Next": "Sekantis"
 },
 "nplurals=3; plural=(n % 10 == 1 && (n % 100 < 11 || n % 100 > 19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? 1 : 2);");

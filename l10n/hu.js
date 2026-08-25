@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "-on",
     "off": "le",
     "No calendar selected in Settings": "Nincs kiválasztva naptár a Beállításokban",
-    "Displayed calendars": "Megjelenített naptárak"
+    "Displayed calendars": "Megjelenített naptárak",
+    "All day": "Egész nap",
+    "Loading calendars...": "Naptárak betöltése...",
+    "Previous": "Előző",
+    "Next": "Következő"
 },
 "nplurals=2; plural=n != 1;");

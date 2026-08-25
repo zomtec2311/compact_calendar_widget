@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "á",
     "off": "af",
     "No calendar selected in Settings": "Ekkert dagatal valið í stillingum",
-    "Displayed calendars": "Sýnd dagatöl"
+    "Displayed calendars": "Sýnd dagatöl",
+    "All day": "All day",
+    "Loading calendars...": "Loading calendars...",
+    "Previous": "Previous",
+    "Next": "Next"
 },
 "nplurals=2; plural=n % 10 != 1 || n % 100 == 11;");

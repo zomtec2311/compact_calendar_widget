@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "haqqında",
     "off": "off",
     "No calendar selected in Settings": "Parametrlərdə heç bir təqvim seçilməyib",
-    "Displayed calendars": "Göstərilən təqvimlər"
+    "Displayed calendars": "Göstərilən təqvimlər",
+    "All day": "Bütün gün",
+    "Loading calendars...": "Qeydiyyatdan keçirt ».",
+    "Previous": "Previous",
+    "Next": "Next"
 },
 "nplurals=2; plural=n != 1;");

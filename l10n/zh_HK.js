@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "在",
     "off": "離開",
     "No calendar selected in Settings": "在「設定」中未選擇日曆",
-    "Displayed calendars": "顯示的日曆"
+    "Displayed calendars": "顯示的日曆",
+    "All day": "全天",
+    "Loading calendars...": "正在加载日历...",
+    "Previous": "上一个",
+    "Next": "下一步"
 },
 "nplurals=1; plural=0;");

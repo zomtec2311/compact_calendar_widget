@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "នៅលើ",
     "off": "បិទ",
     "No calendar selected in Settings": "មិនបានជ្រើសរើសប្រតិទិននៅក្នុងការកំណត់ទេ។",
-    "Displayed calendars": "បាន​បង្ហាញ​ប្រតិទិន"
+    "Displayed calendars": "បាន​បង្ហាញ​ប្រតិទិន",
+    "All day": "All day",
+    "Loading calendars...": "Loading calendars...",
+    "Previous": "Previous",
+    "Next": "Next"
 },
 "nplurals=1; plural=0;");

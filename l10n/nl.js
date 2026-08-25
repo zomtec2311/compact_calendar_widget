@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "op",
     "off": "uit",
     "No calendar selected in Settings": "Geen agenda geselecteerd in Instellingen",
-    "Displayed calendars": "Weergegeven kalenders"
+    "Displayed calendars": "Weergegeven kalenders",
+    "All day": "De hele dag",
+    "Loading calendars...": "Agenda's laden...",
+    "Previous": "Vorige",
+    "Next": "Volgende"
 },
 "nplurals=2; plural=n != 1;");

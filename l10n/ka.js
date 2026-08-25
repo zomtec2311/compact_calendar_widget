@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "on",
     "off": "გამორთულია",
     "No calendar selected in Settings": "პარამეტრებში კალენდარი არჩეული არ არის",
-    "Displayed calendars": "ნაჩვენები კალენდრები"
+    "Displayed calendars": "ნაჩვენები კალენდრები",
+    "All day": "All day",
+    "Loading calendars...": "Loading calendars...",
+    "Previous": "Previous",
+    "Next": "Next"
 },
 "nplurals=2; plural=n != 1;");

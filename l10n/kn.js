@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "ಮೇಲೆ",
     "off": "ಆಫ್",
     "No calendar selected in Settings": "ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಯಾವುದೇ ಕ್ಯಾಲೆಂಡರ್ ಆಯ್ಕೆ ಮಾಡಲಾಗಿಲ್ಲ",
-    "Displayed calendars": "ಕ್ಯಾಲೆಂಡರ್‌ಗಳನ್ನು ಪ್ರದರ್ಶಿಸಲಾಗಿದೆ"
+    "Displayed calendars": "ಕ್ಯಾಲೆಂಡರ್‌ಗಳನ್ನು ಪ್ರದರ್ಶಿಸಲಾಗಿದೆ",
+    "All day": "All day",
+    "Loading calendars...": "Loading calendars...",
+    "Previous": "Previous",
+    "Next": "Next"
 },
 "nplurals=2; plural=n > 1;");

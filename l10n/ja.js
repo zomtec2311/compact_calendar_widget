@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "の上",
     "off": "オフ",
     "No calendar selected in Settings": "設定でカレンダーが選択されていません",
-    "Displayed calendars": "表示されるカレンダー"
+    "Displayed calendars": "表示されるカレンダー",
+    "All day": "一日中",
+    "Loading calendars...": "カレンダーを読み込む...",
+    "Previous": "新着情報",
+    "Next": "次へ"
 },
 "nplurals=1; plural=0;");

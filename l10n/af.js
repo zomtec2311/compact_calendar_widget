@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "aan",
     "off": "af",
     "No calendar selected in Settings": "Geen kalender gekies in Instellings nie",
-    "Displayed calendars": "Vertoonde kalenders"
+    "Displayed calendars": "Vertoonde kalenders",
+    "All day": "All day",
+    "Loading calendars...": "Loading calendars...",
+    "Previous": "Previous",
+    "Next": "Next"
 },
 "nplurals=2; plural=n != 1;");

@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "עַל",
     "off": "כבוי",
     "No calendar selected in Settings": "לא נבחר יומן בהגדרות",
-    "Displayed calendars": "לוחות שנה מוצגים"
+    "Displayed calendars": "לוחות שנה מוצגים",
+    "All day": "כל היום",
+    "Loading calendars...": "לוח השנה...",
+    "Previous": "הקודם",
+    "Next": "הבא"
 },
 "nplurals=3; plural=(n == 1) ? 0 : ((n == 2) ? 1 : 2);");

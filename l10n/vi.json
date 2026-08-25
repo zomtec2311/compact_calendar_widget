@@ -23,7 +23,11 @@
         "on": "TRÊN",
         "off": "tắt",
         "No calendar selected in Settings": "Không có lịch nào được chọn trong Cài đặt",
-        "Displayed calendars": "Lịch được hiển thị"
+        "Displayed calendars": "Lịch được hiển thị",
+        "All day": "Cả ngày",
+        "Loading calendars...": "Đang nạp lịch...",
+        "Previous": "Lùi",
+        "Next": "Kế"
     },
     "pluralForm": "nplurals=1; plural=0;"
 }

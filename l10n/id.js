@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "pada",
     "off": "mati",
     "No calendar selected in Settings": "Tidak ada kalender yang dipilih di Pengaturan",
-    "Displayed calendars": "Kalender yang ditampilkan"
+    "Displayed calendars": "Kalender yang ditampilkan",
+    "All day": "Sepanjang hari",
+    "Loading calendars...": "Memuat kalender...",
+    "Previous": "Sebelumnya",
+    "Next": "Berikutnya"
 },
 "nplurals=1; plural=0;");

@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "~에",
     "off": "끄다",
     "No calendar selected in Settings": "설정에서 선택한 캘린더가 없습니다.",
-    "Displayed calendars": "표시된 달력"
+    "Displayed calendars": "표시된 달력",
+    "All day": "1일 전",
+    "Loading calendars...": "로딩...",
+    "Previous": "이름 *",
+    "Next": "이름 *"
 },
 "nplurals=1; plural=0;");

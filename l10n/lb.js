@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "op",
     "off": "aus",
     "No calendar selected in Settings": "Kee Kalenner ausgewielt an Astellungen",
-    "Displayed calendars": "Kalenneren ugewisen"
+    "Displayed calendars": "Kalenneren ugewisen",
+    "All day": "All day",
+    "Loading calendars...": "Loading calendars...",
+    "Previous": "Previous",
+    "Next": "Next"
 },
 "nplurals=2; plural=n != 1;");

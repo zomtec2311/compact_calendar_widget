@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "na",
     "off": "izklopljeno",
     "No calendar selected in Settings": "V nastavitvah ni izbran koledar",
-    "Displayed calendars": "Prikazani koledarji"
+    "Displayed calendars": "Prikazani koledarji",
+    "All day": "Cel dan",
+    "Loading calendars...": "Nalaganje koledarjev...",
+    "Previous": "Prejšnja",
+    "Next": "Naprej"
 },
 "nplurals=4; plural=(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3));");

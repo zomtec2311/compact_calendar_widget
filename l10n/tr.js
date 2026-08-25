@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "Açık",
     "off": "kapalı",
     "No calendar selected in Settings": "Ayarlar'da takvim seçilmedi",
-    "Displayed calendars": "Görüntülenen takvimler"
+    "Displayed calendars": "Görüntülenen takvimler",
+    "All day": "Bütün gün",
+    "Loading calendars...": "Yükleniyor takvimler...",
+    "Previous": "Önceki",
+    "Next": "Sonraki"
 },
 "nplurals=2; plural=n != 1;");

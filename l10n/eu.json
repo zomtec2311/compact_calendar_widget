@@ -23,7 +23,11 @@
         "on": "on",
         "off": "itzali",
         "No calendar selected in Settings": "Ezarpenetan ez dago egutegirik hautatu",
-        "Displayed calendars": "Bistaratzen diren egutegiak"
+        "Displayed calendars": "Bistaratzen diren egutegiak",
+        "All day": "Egun osoa",
+        "Loading calendars...": "Egutegiak kargatzen...",
+        "Previous": "Aurrekoa",
+        "Next": "Hurrengoa"
     },
     "pluralForm": "nplurals=2; plural=n != 1;"
 }

@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "অন",
     "off": "বন্ধ",
     "No calendar selected in Settings": "সেটিংসে কোনো ক্যালেন্ডার নির্বাচন করা হয়নি৷",
-    "Displayed calendars": "প্রদর্শিত ক্যালেন্ডার"
+    "Displayed calendars": "প্রদর্শিত ক্যালেন্ডার",
+    "All day": "সারাদিনব্যাপী",
+    "Loading calendars...": "বর্ষপঞ্জি লোড করা হচ্ছে...",
+    "Previous": "পূর্ববর্তী",
+    "Next": "পরবর্তী"
 },
 "nplurals=2; plural=n > 1;");

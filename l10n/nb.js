@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "på",
     "off": "av",
     "No calendar selected in Settings": "Ingen kalender valgt i Innstillinger",
-    "Displayed calendars": "Viste kalendere"
+    "Displayed calendars": "Viste kalendere",
+    "All day": "Hele dagen",
+    "Loading calendars...": "Laster kalendere...",
+    "Previous": "Forrige",
+    "Next": "Neste"
 },
 "nplurals=2; plural=n != 1;");

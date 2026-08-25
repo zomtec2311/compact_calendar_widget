@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "sisse",
     "off": "välja",
     "No calendar selected in Settings": "Seadetes pole kalendrit valitud",
-    "Displayed calendars": "Kuvatud kalendrid"
+    "Displayed calendars": "Kuvatud kalendrid",
+    "All day": "Terve päev",
+    "Loading calendars...": "Kalendrite laadimine...",
+    "Previous": "Eelmine",
+    "Next": "Järgmine"
 },
 "nplurals=2; plural=n != 1;");

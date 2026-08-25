@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "sur",
     "off": "désactivé",
     "No calendar selected in Settings": "Aucun calendrier sélectionné dans Paramètres",
-    "Displayed calendars": "Calendriers affichés"
+    "Displayed calendars": "Calendriers affichés",
+    "All day": "Toute la journée",
+    "Loading calendars...": "Chargement des calendriers...",
+    "Previous": "Précédent",
+    "Next": "Suivant"
 },
 "nplurals=2; plural=(n != 1);");

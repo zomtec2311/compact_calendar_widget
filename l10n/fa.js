@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "در",
     "off": "خاموش",
     "No calendar selected in Settings": "هیچ تقویمی در تنظیمات انتخاب نشده است",
-    "Displayed calendars": "تقویم های نمایش داده شده"
+    "Displayed calendars": "تقویم های نمایش داده شده",
+    "All day": "تمام روز",
+    "Loading calendars...": "تقویم های بارگذاری ...",
+    "Previous": "Previous Previous Previous post",
+    "Next": "بعدی"
 },
 "nplurals=2; plural=n > 1;");

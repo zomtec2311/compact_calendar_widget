@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "на",
     "off": "изключено",
     "No calendar selected in Settings": "Няма избран календар в Настройки",
-    "Displayed calendars": "Показани календари"
+    "Displayed calendars": "Показани календари",
+    "All day": "Цял ден",
+    "Loading calendars...": "Зареждане на календари...",
+    "Previous": "Предишен",
+    "Next": "Следващият"
 },
 "nplurals=2; plural=n != 1;");

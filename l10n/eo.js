@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "on",
     "off": "for",
     "No calendar selected in Settings": "Neniu kalendaro elektita en Agordoj",
-    "Displayed calendars": "Montritaj kalendaroj"
+    "Displayed calendars": "Montritaj kalendaroj",
+    "All day": "Ĉiu tago",
+    "Loading calendars...": "Prunte kalendarojn...",
+    "Previous": "Antaŭa",
+    "Next": "La sekva"
 },
 "nplurals=2; plural=n != 1;");

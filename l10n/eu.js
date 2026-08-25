@@ -24,6 +24,10 @@ OC.L10N.register(
     "on": "on",
     "off": "itzali",
     "No calendar selected in Settings": "Ezarpenetan ez dago egutegirik hautatu",
-    "Displayed calendars": "Bistaratzen diren egutegiak"
+    "Displayed calendars": "Bistaratzen diren egutegiak",
+    "All day": "Egun osoa",
+    "Loading calendars...": "Egutegiak kargatzen...",
+    "Previous": "Aurrekoa",
+    "Next": "Hurrengoa"
 },
 "nplurals=2; plural=n != 1;");

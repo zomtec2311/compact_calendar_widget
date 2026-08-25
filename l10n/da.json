@@ -23,7 +23,11 @@
         "on": "på",
         "off": "slukket",
         "No calendar selected in Settings": "Der er ikke valgt nogen kalender i Indstillinger",
-        "Displayed calendars": "Viste kalendere"
+        "Displayed calendars": "Viste kalendere",
+        "All day": "Hele dagen",
+        "Loading calendars...": "Indlæser kalendere...",
+        "Previous": "Forrige",
+        "Next": "Næste"
     },
     "pluralForm": "nplurals=2; plural=n != 1;"
 }
