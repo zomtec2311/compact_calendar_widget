@@ -26,11 +26,7 @@
 
 return [
     'routes' => [
-        [
-            'name' => 'calendar_widget#getEvents',
-            'url' => '/api/events',
-            'verb' => 'GET',
-        ],
+        ['name' => 'calendar_widget#getEvents', 'url' => '/api/events', 'verb' => 'GET'],
         ['name' => 'calendar_widget#getSetting', 'url' => '/api/setting', 'verb' => 'GET'],
         ['name' => 'calendar_widget#saveSetting', 'url' => '/api/setting', 'verb' => 'POST'],
         ['name' => 'event#getCalendars', 'url' => '/api/calendars', 'verb' => 'GET'],
