@@ -1,6 +1,5 @@
 <?php
 /**
- *
  * Compact Calendar Widget APP (Nextcloud)
  *
  * @author Wolfgang Tödt <wtoedt@gmail.com>
@@ -16,11 +15,11 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -67,8 +66,21 @@ class CalendarWidgetController extends Controller {
 			$principalUri = 'principals/users/' . $user->getUID();
 			$userCalendars = $this->calendarManager->getCalendarsForPrincipal($principalUri);
 
+			if (method_exists($this->calendarManager, 'getSubscriptionsForPrincipal')) {
+				try {
+					$subs = $this->calendarManager->getSubscriptionsForPrincipal($principalUri);
+					$userCalendars = array_merge($userCalendars, $subs);
+				} catch (\Throwable $e) {
+					$this->logger->error('CompactCalendarWidget error: ' . $e->getMessage(), ['exception' => $e]);
+				}
+			}
+
 			$result = [];
 			foreach ($userCalendars as $cal) {
+				if (!is_object($cal) || !method_exists($cal, 'getUri')) {
+					continue;
+				}
+
 				$uri = (string)$cal->getUri();
 				$displayName = method_exists($cal, 'getDisplayName') ? $cal->getDisplayName() : $uri;
 
@@ -81,8 +93,10 @@ class CalendarWidgetController extends Controller {
 					$colorStr = '#' . $colorStr;
 				}
 
+				$key = method_exists($cal, 'getKey') ? (string)$cal->getKey() : (method_exists($cal, 'getId') ? (string)$cal->getId() : $uri);
+
 				$result[] = [
-					'id'          => (string)$cal->getKey(),
+					'id'          => $key,
 					'uri'         => $uri,
 					'displayname' => $displayName,
 					'color'       => !empty($colorStr) ? $colorStr : '#82b8d6',
@@ -91,7 +105,7 @@ class CalendarWidgetController extends Controller {
 
 			return new DataResponse(['calendars' => $result]);
 		} catch (\Throwable $e) {
-			$this->logger->error('Error fetching calendars: ' . $e->getMessage(), ['exception' => $e]);
+			$this->logger->error('CompactCalendarWidget - Error fetching calendars: ' . $e->getMessage(), ['exception' => $e]);
 			return new DataResponse(['error' => $e->getMessage()], 500);
 		}
 	}
@@ -137,21 +151,19 @@ class CalendarWidgetController extends Controller {
 			}
 			$selectedCalendars = array_filter(array_unique($selectedCalendars));
 
-			if ($hasStoredConfig && empty($selectedCalendars)) {
-				return new DataResponse([]);
-			}
-
 			$startParam = $this->request->getParam('start');
-			$endParam   = $this->request->getParam('end');
-			$dateParam  = $this->request->getParam('date');
+			$endParam = $this->request->getParam('end');
+			$dateParam = $this->request->getParam('date');
 
 			if ($startParam && $endParam) {
 				$start = new DateTime((string)$startParam . ' 00:00:00', $tz);
-				$end   = new DateTime((string)$endParam . ' 23:59:59', $tz);
+				$end = new DateTime((string)$endParam . ' 23:59:59', $tz);
+				$start->modify('-7 days');
+				$end->modify('+7 days');
 			} else {
 				$baseDate = $dateParam ? new DateTime((string)$dateParam, $tz) : new DateTime('now', $tz);
-				$start    = clone $baseDate;
-				$end      = clone $baseDate;
+				$start = clone $baseDate;
+				$end = clone $baseDate;
 
 				switch ($range) {
 					case 'day':
@@ -159,12 +171,12 @@ class CalendarWidgetController extends Controller {
 						$end->setTime(23, 59, 59);
 						break;
 					case 'month':
-						$start->modify('first day of this month')->setTime(0, 0, 0);
-						$end->modify('last day of this month')->setTime(23, 59, 59);
+						$start->modify('first day of this month')->setTime(0, 0, 0)->modify('-7 days');
+						$end->modify('last day of this month')->setTime(23, 59, 59)->modify('+7 days');
 						break;
 					case 'year':
-						$start->modify('first day of January')->setTime(0, 0, 0);
-						$end->modify('last day of December')->setTime(23, 59, 59);
+						$start->modify('first day of January')->setTime(0, 0, 0)->modify('-2 days');
+						$end->modify('last day of December')->setTime(23, 59, 59)->modify('+2 days');
 						break;
 					case 'week':
 					default:
@@ -175,36 +187,37 @@ class CalendarWidgetController extends Controller {
 						}
 						$end = clone $start;
 						$end->modify('+6 days')->setTime(23, 59, 59);
+						$start->modify('-2 days');
+						$end->modify('+2 days');
 						break;
 				}
 			}
 
 			$principalUri = 'principals/users/' . $userId;
-			$userCalendars = $this->calendarManager->getCalendarsForPrincipal($principalUri);
+			if (method_exists($this->calendarManager, 'getCalendarsForPrincipalWithSubscriptions')) {
+				$userCalendars = $this->calendarManager->getCalendarsForPrincipalWithSubscriptions($principalUri);
+			} elseif (method_exists($this->calendarManager, 'getSubscriptionsForPrincipal')) {
+				$calsOnly = $this->calendarManager->getCalendarsForPrincipal($principalUri);
+				$subsOnly = $this->calendarManager->getSubscriptionsForPrincipal($principalUri);
+				$userCalendars = array_merge($calsOnly, $subsOnly);
+			} else {
+				$userCalendars = $this->calendarManager->getCalendarsForPrincipal($principalUri);
+			}
 
 			$calendarColorMap = [];
 			foreach ($userCalendars as $cal) {
+				if (!is_object($cal) || !method_exists($cal, 'getUri')) {
+					continue;
+				}
 				$uri = (string)$cal->getUri();
-				$key = (string)$cal->getKey();
+				$key = method_exists($cal, 'getKey') ? (string)$cal->getKey() : (method_exists($cal, 'getId') ? (string)$cal->getId() : $uri);
+				$color = method_exists($cal, 'getDisplayColor') ? $cal->getDisplayColor() : (method_exists($cal, 'getCalendarColor') ? $cal->getCalendarColor() : '#82b8d6');
 
-				$color = method_exists($cal, 'getDisplayColor')
-					? $cal->getDisplayColor()
-					: (method_exists($cal, 'getCalendarColor') ? $cal->getCalendarColor() : '#82b8d6');
-
-				$colorStr = (string)$color;
-				if (!empty($colorStr) && !str_starts_with($colorStr, '#') && !str_starts_with($colorStr, 'rgb')) {
-					$colorStr = '#' . $colorStr;
-				}
-				if (empty($colorStr)) {
-					$colorStr = '#82b8d6';
-				}
-
-				$calendarColorMap[$uri] = $colorStr;
-				$calendarColorMap[$key] = $colorStr;
+				$calendarColorMap[$uri] = (string)$color;
+				$calendarColorMap[$key] = (string)$color;
 			}
 
 			$query = $this->calendarManager->newQuery($principalUri);
-
 			$startUtc = clone $start;
 			$startUtc->setTimezone(new DateTimeZone('UTC'));
 			$endUtc = clone $end;
@@ -215,16 +228,94 @@ class CalendarWidgetController extends Controller {
 
 			$searchResults = $this->calendarManager->searchForPrincipal($query);
 
-			$events = [];
+			if (method_exists($this->calendarManager, 'getSubscriptionsForPrincipal')) {
+				try {
+					$subscriptions = $this->calendarManager->getSubscriptionsForPrincipal($principalUri);
+					foreach ($subscriptions as $sub) {
+						$subUri = method_exists($sub, 'getUri') ? (string)$sub->getUri() : '';
+						$subKey = method_exists($sub, 'getKey') ? (string)$sub->getKey() : '';
+						$subId = method_exists($sub, 'getId') ? (string)$sub->getId() : '';
 
+						$isSubSelected = false;
+						if (!$hasStoredConfig || empty($selectedCalendars)) {
+							$isSubSelected = true;
+						} else {
+							foreach ($selectedCalendars as $sel) {
+								$sel = (string)$sel;
+								if ($sel === $subUri || $sel === $subKey || $sel === $subId ||
+									($subUri !== '' && str_contains($subUri, $sel)) ||
+									($sel !== '' && str_contains($sel, $subUri))) {
+									$isSubSelected = true;
+									break;
+								}
+							}
+						}
+
+						if (!$isSubSelected) {
+							continue;
+						}
+
+						$subResults = [];
+						if (method_exists($this->calendarManager, 'searchForSubscription')) {
+							try {
+								$subResults = $this->calendarManager->searchForSubscription($sub, $query);
+							} catch (\Throwable $e) {
+								$subResults = [];
+							}
+						}
+
+						if (empty($subResults) && method_exists($sub, 'getObjects')) {
+							try {
+								$rawObjects = $sub->getObjects();
+								if (!empty($rawObjects)) {
+									$subResults[] = [
+										'calendar-uri' => $subUri,
+										'calendar-key' => $subKey,
+										'id'           => $subId,
+										'objects'      => $rawObjects,
+									];
+								}
+							} catch (\Throwable $e) {
+							}
+						}
+
+						if (is_array($subResults)) {
+							foreach ($subResults as &$subRes) {
+								$subRes['calendar-uri'] = !empty($subUri) ? $subUri : ($subRes['calendar-uri'] ?? 'feiertage-in-germany');
+								$subRes['calendar-key'] = !empty($subKey) ? $subKey : ($subRes['calendar-key'] ?? $subId);
+								$subRes['is_subscription'] = true;
+							}
+							unset($subRes);
+							$searchResults = array_merge($searchResults, $subResults);
+						}
+					}
+				} catch (\Throwable $subEx) {
+					$this->logger->error('[CompactCalendarWidget] Subscriptions Search Fehler: ' . $subEx->getMessage());
+				}
+			}
+
+			$events = [];
 			foreach ($searchResults as $item) {
 				$calKey = (string)($item['calendar-key'] ?? '');
-				$calUri = (string)($item['calendar-uri'] ?? $calKey);
+				$calUri = (string)($item['calendar-uri'] ?? '');
+				$calId = (string)($item['id'] ?? '');
 
 				if ($hasStoredConfig && !empty($selectedCalendars)) {
 					$matched = false;
 					foreach ($selectedCalendars as $sel) {
-						if ($sel === $calKey || $sel === $calUri || str_contains($calUri, $sel)) {
+						$sel = trim((string)$sel, '/');
+						$checkKey = trim($calKey, '/');
+						$checkUri = trim($calUri, '/');
+						$checkId = trim($calId, '/');
+
+						if (
+							$sel === $checkKey ||
+							$sel === $checkUri ||
+							$sel === $checkId ||
+							($checkUri !== '' && str_contains($checkUri, $sel)) ||
+							($sel !== '' && str_contains($sel, $checkUri)) ||
+							($checkKey !== '' && str_contains($checkKey, $sel))
+						) {
 							$matched = true;
 							break;
 						}
@@ -238,54 +329,98 @@ class CalendarWidgetController extends Controller {
 				$objects = $item['objects'] ?? [];
 
 				foreach ($objects as $obj) {
-					$summary  = $obj['SUMMARY'][0] ?? 'Kein Titel';
-					$location = $obj['LOCATION'][0] ?? '';
+					$summary = 'Kein Titel';
+					if (isset($obj['SUMMARY'])) {
+						if (is_array($obj['SUMMARY'])) {
+							$summary = is_array($obj['SUMMARY'][0]) ? ($obj['SUMMARY'][0]['value'] ?? 'Kein Titel') : $obj['SUMMARY'][0];
+						} else {
+							$summary = (string)$obj['SUMMARY'];
+						}
+					}
 
-					$dtStartRaw = $obj['DTSTART'][0] ?? null;
-					$dtEndRaw   = $obj['DTEND'][0] ?? null;
+					$dtStartRaw = null;
+					$dtStartParams = [];
+					if (isset($obj['DTSTART'])) {
+						if (is_array($obj['DTSTART'])) {
+							$dtStartRaw = $obj['DTSTART'][0] ?? null;
+							$dtStartParams = $obj['DTSTART'][1] ?? [];
+						} else {
+							$dtStartRaw = $obj['DTSTART'];
+						}
+					}
 
 					if (!$dtStartRaw) {
 						continue;
 					}
 
 					$isAllDay = false;
-					$dtStartParams = $obj['DTSTART'][1] ?? [];
-					if (isset($dtStartParams['VALUE']) && $dtStartParams['VALUE'] === 'DATE') {
+					if ((isset($dtStartParams['VALUE']) && strtoupper((string)$dtStartParams['VALUE']) === 'DATE') ||
+						(is_string($dtStartRaw) && strlen(trim((string)$dtStartRaw)) === 8)) {
 						$isAllDay = true;
 					}
 
-					if ($dtStartRaw instanceof DateTimeInterface) {
-						$dtStart = DateTime::createFromInterface($dtStartRaw);
-					} else {
-						$dtStart = new DateTime((string)$dtStartRaw);
+					try {
+						if ($dtStartRaw instanceof DateTimeInterface) {
+							$dtStart = DateTime::createFromInterface($dtStartRaw);
+						} else {
+							$cleanStart = trim((string)$dtStartRaw);
+							if (strlen($cleanStart) === 8 && is_numeric($cleanStart)) {
+								$dtStart = DateTime::createFromFormat('Ymd', $cleanStart, $tz);
+							} else {
+								$dtStart = new DateTime($cleanStart);
+							}
+						}
+					} catch (\Throwable $e) {
+						continue;
 					}
 
-					if (!$isAllDay) {
+					if ($isAllDay) {
+						$dtStart->setTime(0, 0, 0);
+					} else {
 						$dtStart->setTimezone($tz);
 					}
 
-					if ($dtEndRaw instanceof DateTimeInterface) {
-						$dtEnd = DateTime::createFromInterface($dtEndRaw);
-						if (!$isAllDay) $dtEnd->setTimezone($tz);
-					} elseif (!empty($dtEndRaw)) {
-						$dtEnd = new DateTime((string)$dtEndRaw);
-						if (!$isAllDay) $dtEnd->setTimezone($tz);
-					} else {
+					$dtEndRaw = null;
+					if (isset($obj['DTEND'])) {
+						$dtEndRaw = is_array($obj['DTEND']) ? ($obj['DTEND'][0] ?? null) : $obj['DTEND'];
+					}
+
+					try {
+						if ($dtEndRaw instanceof DateTimeInterface) {
+							$dtEnd = DateTime::createFromInterface($dtEndRaw);
+						} elseif (!empty($dtEndRaw)) {
+							$cleanEnd = trim((string)$dtEndRaw);
+							if (strlen($cleanEnd) === 8 && is_numeric($cleanEnd)) {
+								$dtEnd = DateTime::createFromFormat('Ymd', $cleanEnd, $tz);
+							} else {
+								$dtEnd = new DateTime($cleanEnd);
+							}
+						} else {
+							$dtEnd = clone $dtStart;
+						}
+					} catch (\Throwable $e) {
 						$dtEnd = clone $dtStart;
 					}
 
-					$eventId = (string)($obj['UID'][0] ?? ($item['id'] ?? uniqid()));
+					if ($isAllDay) {
+						$dtEnd->setTime(23, 59, 59);
+					} else {
+						$dtEnd->setTimezone($tz);
+					}
+
+					$uidRaw = isset($obj['UID']) ? (is_array($obj['UID']) ? ($obj['UID'][0] ?? null) : $obj['UID']) : null;
+					$eventId = (string)($uidRaw ?? ($item['id'] ?? uniqid()));
 					$instanceId = $eventId . '_' . $dtStart->format('YmdHis');
 
 					$events[] = [
-						'id'            => $instanceId,
-						'title'         => (string)$summary,
-						'startDate'     => $dtStart->format('Y-m-d'),
-						'start'         => $dtStart->format('c'),
-						'end'           => $dtEnd->format('c'),
-						'location'      => (string)$location,
-						'allDay'        => $isAllDay,
-						'color'         => $colorStr,
+						'id' => $instanceId,
+						'title' => (string)$summary,
+						'startDate' => $dtStart->format('Y-m-d'),
+						'start' => $dtStart->format('c'),
+						'end' => $dtEnd->format('c'),
+						'location' => (string)(is_array($obj['LOCATION'] ?? null) ? ($obj['LOCATION'][0] ?? '') : ($obj['LOCATION'] ?? '')),
+						'allDay' => $isAllDay,
+						'color' => $colorStr,
 						'calendarColor' => $colorStr,
 					];
 				}
@@ -302,11 +437,11 @@ class CalendarWidgetController extends Controller {
 			return new DataResponse($events);
 
 		} catch (\Throwable $e) {
-			$this->logger->error('CalendarWidgetController error: ' . $e->getMessage(), ['exception' => $e]);
+			$this->logger->error('CompactCalendarWidget error: ' . $e->getMessage(), ['exception' => $e]);
 			return new DataResponse([
 				'error' => $e->getMessage(),
-				'file'  => $e->getFile(),
-				'line'  => $e->getLine()
+				'file' => $e->getFile(),
+				'line' => $e->getLine()
 			], 500);
 		}
 	}

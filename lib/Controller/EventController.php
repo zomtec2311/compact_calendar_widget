@@ -52,7 +52,7 @@ class EventController extends Controller {
     }
 
     #[NoAdminRequired]
-    public function getCalendars(): DataResponse {
+    public function old_getCalendars(): DataResponse {
         $user = $this->userSession->getUser();
         if (!$user) {
             return new DataResponse([], 401);
@@ -88,6 +88,59 @@ class EventController extends Controller {
             'selected' => $selected,
         ]);
     }
+
+    #[NoAdminRequired]
+public function getCalendars(): DataResponse {
+    $user = $this->userSession->getUser();
+    if (!$user) {
+        return new DataResponse([], 401);
+    }
+
+    $principalUri = 'principals/users/' . $user->getUID();
+
+    if (method_exists($this->calendarManager, 'getCalendarsForPrincipalWithSubscriptions')) {
+        $userCalendars = $this->calendarManager->getCalendarsForPrincipalWithSubscriptions($principalUri);
+    } elseif (method_exists($this->calendarManager, 'getSubscriptionsForPrincipal')) {
+        $calendarsOnly = $this->calendarManager->getCalendarsForPrincipal($principalUri);
+        $subscriptions = $this->calendarManager->getSubscriptionsForPrincipal($principalUri);
+        $userCalendars = array_merge($calendarsOnly, $subscriptions);
+    } else {
+        $userCalendars = $this->calendarManager->getCalendarsForPrincipal($principalUri);
+    }
+
+    $calendars = [];
+    foreach ($userCalendars as $calendar) {
+        if (is_object($calendar) && method_exists($calendar, 'getUri')) {
+            $uri = (string)$calendar->getUri();
+
+            if (str_contains($uri, 'trash') || str_contains($uri, 'delete')) {
+                continue;
+            }
+
+            $displayName = method_exists($calendar, 'getDisplayName') ? $calendar->getDisplayName() : $uri;
+            $key = method_exists($calendar, 'getKey') ? $calendar->getKey() : (method_exists($calendar, 'getId') ? $calendar->getId() : $uri);
+
+            $color = method_exists($calendar, 'getDisplayColor')
+                ? $calendar->getDisplayColor()
+                : (method_exists($calendar, 'getCalendarColor') ? $calendar->getCalendarColor() : '#82b8d6');
+
+            $calendars[] = [
+                'id' => (string)$key,
+                'displayname' => (string)$displayName,
+                'uri' => $uri,
+                'color' => (string)$color,
+            ];
+        }
+    }
+
+    $rawSelected = $this->userConfig->getValueString($user->getUID(), $this->appName, 'selected_calendars', 'null');
+    $selected = json_decode($rawSelected, true);
+
+    return new DataResponse([
+        'calendars' => $calendars,
+        'selected' => $selected,
+    ]);
+}
 
     #[NoAdminRequired]
     public function saveSelectedCalendars(array $selected): DataResponse {
