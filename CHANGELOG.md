@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.5
+
+### Changed
+- removed debug information from console log
+
 ## 1.0.4
 
 ### Added
