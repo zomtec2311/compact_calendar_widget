@@ -36,6 +36,7 @@ use DateTimeImmutable;
 use DateTimeZone;
 use DateTimeInterface;
 use OCP\Config\IUserConfig;
+use OCP\App\IAppManager;
 use OCP\Calendar\IManager;
 use Psr\Log\LoggerInterface;
 
@@ -46,10 +47,12 @@ class CalendarWidgetController extends Controller {
 		IRequest $request,
 		private IUserSession $userSession,
 		private IUserConfig $userConfig,
+		private IAppManager $appManager,
 		private readonly LoggerInterface $logger,
 		private IManager $calendarManager,
 	) {
 		parent::__construct($appName, $request);
+		$this->appManager = $appManager;
 	}
 
 	/**
@@ -457,7 +460,7 @@ class CalendarWidgetController extends Controller {
 		$key = $key ?? (string)$this->request->getParam('key', 'defaultView');
 		$value = $this->userConfig->getValueString($user->getUID(), $this->appName, $key, '');
 
-		return new DataResponse(['key' => $key, 'value' => $value]);
+		return new DataResponse(['key' => $key, 'value' => $value, 'version' => $this->appManager->getAppVersion('compact_calendar_widget', true),]);
 	}
 
 	/**

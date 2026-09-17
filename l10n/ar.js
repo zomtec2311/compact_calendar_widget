@@ -28,6 +28,11 @@ OC.L10N.register(
     "All day": "طوال اليوم",
     "Loading calendars...": "التقويم.",
     "Previous": "سابقا",
-    "Next": "التالي"
+    "Next": "التالي",
+    "About": "بشأن",
+    "CompactCalendarWidget on GitHub": "BelendarWidget on GitHub",
+    "Report an Issue": "Report an Issue",
+    "CompactCalendarWidget in the Appstore": "العهد الدولي الخاص بالحقوق الاقتصادية والاجتماعية والثقافية",
+    "if you like {name} ⭐ rate and/or 💬 comment on {name} in the {where}": "إذا كنت تحب {name} ⭐ معدل و/أو تعليق على {name} في {where}"
 },
 "nplurals=6; plural=(n == 0) ? 0 : ((n == 1) ? 1 : ((n == 2) ? 2 : ((n % 100 >= 3 && n % 100 <= 10) ? 3 : ((n % 100 >= 11 && n % 100 <= 99) ? 4 : 5))));");

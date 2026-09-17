@@ -28,6 +28,10 @@ OC.L10N.register(
     "All day": "Egun osoa",
     "Loading calendars...": "Egutegiak kargatzen...",
     "Previous": "Aurrekoa",
-    "Next": "Hurrengoa"
+    "Next": "Hurrengoa",
+    "About": "Honi buruz",
+    "CompactCalendarWidget on GitHub": "CompactCalendarWidget GitHub-en",
+    "Report an Issue": "Bidali arazo bat",
+    "CompactCalendarWidget in the Appstore": "CompactCalendarWidget aplikazioan"
 },
 "nplurals=2; plural=n != 1;");

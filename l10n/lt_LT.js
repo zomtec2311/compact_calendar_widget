@@ -28,6 +28,11 @@ OC.L10N.register(
     "All day": "Visą dieną",
     "Loading calendars...": "Kalendoriai...",
     "Previous": "Ankstesnis",
-    "Next": "Sekantis"
+    "Next": "Sekantis",
+    "About": "@ info: tooltip",
+    "CompactCalendarWidget on GitHub": "CompactCalendarWidget GitHub",
+    "Report an Issue": "NAME OF TRANSLATORS",
+    "CompactCalendarWidget in the Appstore": "CompactCalendarWidget Apphouse",
+    "if you like {name} ⭐ rate and/or 💬 comment on {name} in the {where}": "jei jums patinka {name} ar norma ir (arba) jūsų komentaras {name} {where}"
 },
 "nplurals=3; plural=(n % 10 == 1 && (n % 100 < 11 || n % 100 > 19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? 1 : 2);");

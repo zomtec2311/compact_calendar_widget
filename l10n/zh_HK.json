@@ -27,7 +27,12 @@
         "All day": "全天",
         "Loading calendars...": "正在加载日历...",
         "Previous": "上一个",
-        "Next": "下一步"
+        "Next": "下一步",
+        "About": "關於我們",
+        "CompactCalendarWidget on GitHub": "GitHub上的CompactCalendarWidget",
+        "Report an Issue": "回報問題",
+        "CompactCalendarWidget in the Appstore": "Appstore中的CompactCalendarWidget",
+        "if you like {name} ⭐ rate and/or 💬 comment on {name} in the {where}": "如果您喜歡{name}⭐率和/或對{where}中的{name}發💬表評論"
     },
     "pluralForm": "nplurals=1; plural=0;"
 }

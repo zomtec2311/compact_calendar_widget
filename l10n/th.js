@@ -28,6 +28,11 @@ OC.L10N.register(
     "All day": "ทั้งวัน",
     "Loading calendars...": "กําลังโหลดปฏิทิน...",
     "Previous": "ก่อนหน้า",
-    "Next": "ต่อไป"
+    "Next": "ต่อไป",
+    "About": "เกี่ยวกับ",
+    "CompactCalendarWidget on GitHub": "กระเด้งกระดอน",
+    "Report an Issue": "รายงาน ประเด็น",
+    "CompactCalendarWidget in the Appstore": "กระเด้งกระดอน CalendarWidget in the Appstoire",
+    "if you like {name} ⭐ rate and/or 💬 comment on {name} in the {where}": "ถ้าคุณชอบ {name} ○ อัตรา และ/หรือ 💬 หมายเหตุเกี่ยวกับ {name} ใน {where}"
 },
 "nplurals=1; plural=0;");

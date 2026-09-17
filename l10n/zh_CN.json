@@ -27,7 +27,12 @@
         "All day": "全天",
         "Loading calendars...": "正在加载日历...",
         "Previous": "上一个",
-        "Next": "下一步"
+        "Next": "下一步",
+        "About": "关于",
+        "CompactCalendarWidget on GitHub": "GitHub 上的 ContractingCalendar Widget 软件",
+        "Report an Issue": "报告一个问题",
+        "CompactCalendarWidget in the Appstore": "Appstore 中的 ContractingCalendar Widget 组件",
+        "if you like {name} ⭐ rate and/or 💬 comment on {name} in the {where}": "如果您喜欢{name} qq 率和/或qq 评出 {where}中的{name}"
     },
     "pluralForm": "nplurals=1; plural=0;"
 }

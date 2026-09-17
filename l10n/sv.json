@@ -27,7 +27,12 @@
         "All day": "Hela dagen",
         "Loading calendars...": "Ledande kalendrar...",
         "Previous": "Föregående",
-        "Next": "Nästa"
+        "Next": "Nästa",
+        "About": "Om",
+        "CompactCalendarWidget on GitHub": "CompactCalendarWidget på GitHub",
+        "Report an Issue": "Rapportera en fråga",
+        "CompactCalendarWidget in the Appstore": "CompactCalendarWidget i Appstore",
+        "if you like {name} ⭐ rate and/or 💬 comment on {name} in the {where}": "om du gillar {name} ° frekvens och/eller kommentar på {name} i {where}"
     },
     "pluralForm": "nplurals=2; plural=n != 1;"
 }

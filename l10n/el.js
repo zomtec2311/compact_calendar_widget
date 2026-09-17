@@ -28,6 +28,11 @@ OC.L10N.register(
     "All day": "Όλη μέρα",
     "Loading calendars...": "Φόρτωση ημερολογίων...",
     "Previous": "Προηγούμενο",
-    "Next": "Επόμενο"
+    "Next": "Επόμενο",
+    "About": "Σχετικά",
+    "CompactCalendarWidget on GitHub": "CompactCalendarWidget στο GitHub",
+    "Report an Issue": "Αναφορά θέματος",
+    "CompactCalendarWidget in the Appstore": "CompactCalendarWidget στο Appstore",
+    "if you like {name} ⭐ rate and/or 💬 comment on {name} in the {where}": "εάν σας αρέσει {name} ⭐ επιτόκιο και / ή 💬 σχόλιο για {name} στο {where}"
 },
 "nplurals=2; plural=n != 1;");

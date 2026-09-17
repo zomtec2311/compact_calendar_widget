@@ -28,6 +28,11 @@ OC.L10N.register(
     "All day": "Todo o dia",
     "Loading calendars...": "Carregando calendários...",
     "Previous": "Anterior",
-    "Next": "Próxima"
+    "Next": "Próxima",
+    "About": "Sobre",
+    "CompactCalendarWidget on GitHub": "CompactCalendarWidget no GitHub",
+    "Report an Issue": "Relatar um Problema",
+    "CompactCalendarWidget in the Appstore": "CompactCalendarWidget na Appstore",
+    "if you like {name} ⭐ rate and/or 💬 comment on {name} in the {where}": "se você gosta de {name} taxa e/ou comentário em {name} no {where}"
 },
 "nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);");

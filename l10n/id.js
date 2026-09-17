@@ -28,6 +28,11 @@ OC.L10N.register(
     "All day": "Sepanjang hari",
     "Loading calendars...": "Memuat kalender...",
     "Previous": "Sebelumnya",
-    "Next": "Berikutnya"
+    "Next": "Berikutnya",
+    "About": "Tentang",
+    "CompactCalendarWidget on GitHub": "CompactCalendarWidget di GitHub",
+    "Report an Issue": "Laporkan sebuah Isu",
+    "CompactCalendarWidget in the Appstore": "CompactCalendarWidget di Appstore",
+    "if you like {name} ⭐ rate and/or 💬 comment on {name} in the {where}": "jika anda suka {name} vokate dan / atau komentar di {name} di {where}"
 },
 "nplurals=1; plural=0;");

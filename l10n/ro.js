@@ -28,6 +28,11 @@ OC.L10N.register(
     "All day": "Toată ziua",
     "Loading calendars...": "Se încarcă calendarele...",
     "Previous": "Precedent",
-    "Next": "Înainte"
+    "Next": "Înainte",
+    "About": "Despre",
+    "CompactCalendarWidget on GitHub": "CompactCalendarWidget pe GitHub",
+    "Report an Issue": "Raportează o problemă",
+    "CompactCalendarWidget in the Appstore": "CompactCalendarWidget în Appstore",
+    "if you like {name} ⭐ rate and/or 💬 comment on {name} in the {where}": "dacă vă place {name} rata de și/sau comentariu la {name} în {where}"
 },
 "nplurals=3; plural=(n == 1) ? 0 : ((n == 0 || n != 1 && n % 100 >= 1 && n % 100 <= 19) ? 1 : 2);");

@@ -28,6 +28,10 @@ OC.L10N.register(
     "All day": "一日中",
     "Loading calendars...": "カレンダーを読み込む...",
     "Previous": "新着情報",
-    "Next": "次へ"
+    "Next": "次へ",
+    "About": "お問い合わせ",
+    "CompactCalendarWidget on GitHub": "CompactCalendarWidget を GitHub にインストール",
+    "Report an Issue": "課題報告",
+    "CompactCalendarWidget in the Appstore": "CompactCalendarAppstoreのウィジェット"
 },
 "nplurals=1; plural=0;");

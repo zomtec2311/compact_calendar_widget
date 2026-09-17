@@ -28,6 +28,11 @@ OC.L10N.register(
     "All day": "全天",
     "Loading calendars...": "正在加载日历...",
     "Previous": "上一个",
-    "Next": "下一步"
+    "Next": "下一步",
+    "About": "About",
+    "CompactCalendarWidget on GitHub": "CompactCalendarWidget on GitHub",
+    "Report an Issue": "Report an Issue",
+    "CompactCalendarWidget in the Appstore": "CompactCalendarWidget in the Appstore",
+    "if you like {name} ⭐ rate and/or 💬 comment on {name} in the {where}": "if you like {name} ⭐ rate and/or 💬 comment on {name} in the {where}"
 },
 "nplurals=1; plural=0;");

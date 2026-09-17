@@ -28,6 +28,11 @@ OC.L10N.register(
     "All day": "Egész nap",
     "Loading calendars...": "Naptárak betöltése...",
     "Previous": "Előző",
-    "Next": "Következő"
+    "Next": "Következő",
+    "About": "Körülbelül",
+    "CompactCalendarWidget on GitHub": "Compact CalendarWidget a GitHub",
+    "Report an Issue": "Jelentés egy kiadásról",
+    "CompactCalendarWidget in the Appstore": "Compact CalendarWidget az Appstore",
+    "if you like {name} ⭐ rate and/or 💬 comment on {name} in the {where}": "ha a {name}-as tarifát és / vagy a {name}-as komment a {where}-os"
 },
 "nplurals=2; plural=n != 1;");

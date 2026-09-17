@@ -28,6 +28,10 @@ OC.L10N.register(
     "All day": "Всі дні",
     "Loading calendars...": "Завантаження календарів...",
     "Previous": "Попереднє",
-    "Next": "Про нас"
+    "Next": "Про нас",
+    "About": "Про нас",
+    "CompactCalendarWidget on GitHub": "КомпактнийКалендарВідгет на GitHub",
+    "Report an Issue": "Звіт про випуск",
+    "CompactCalendarWidget in the Appstore": "CompactCalendarWidget в Appstore"
 },
 "nplurals=3; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : 2);");

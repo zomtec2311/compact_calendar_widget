@@ -28,6 +28,11 @@ OC.L10N.register(
     "All day": "تمام روز",
     "Loading calendars...": "تقویم های بارگذاری ...",
     "Previous": "Previous Previous Previous post",
-    "Next": "بعدی"
+    "Next": "بعدی",
+    "About": "درباره",
+    "CompactCalendarWidget on GitHub": "CompactCalendarWidget در GitHub",
+    "Report an Issue": "گزارش یک مسئله",
+    "CompactCalendarWidget in the Appstore": "CompactCalendarWidget در Appstore",
+    "if you like {name} ⭐ rate and/or 💬 comment on {name} in the {where}": "اگر شما دوست دارید {name} ⭐ نرخ و / یا 💬 نظر در مورد {name} در {where}"
 },
 "nplurals=2; plural=n > 1;");

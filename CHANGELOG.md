@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.6
+
+### Added
+- additional icon for information
+- l10n: new phrases in language files
+
 ## 1.0.5
 
 ### Changed

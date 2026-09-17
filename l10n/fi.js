@@ -28,6 +28,11 @@ OC.L10N.register(
     "All day": "Koko päivän",
     "Loading calendars...": "Ladataan kalenteria...",
     "Previous": "Edellinen",
-    "Next": "Seuraava"
+    "Next": "Seuraava",
+    "About": "Tietoja",
+    "CompactCalendarWidget on GitHub": "CompactCalendarWidget GitHubissa",
+    "Report an Issue": "Ilmoita numero",
+    "CompactCalendarWidget in the Appstore": "CompactCalendarWidget sovelluksessa",
+    "if you like {name} ⭐ rate and/or 💬 comment on {name} in the {where}": "jos haluat {name} "
 },
 "nplurals=2; plural=n != 1;");

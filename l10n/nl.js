@@ -28,6 +28,10 @@ OC.L10N.register(
     "All day": "De hele dag",
     "Loading calendars...": "Agenda's laden...",
     "Previous": "Vorige",
-    "Next": "Volgende"
+    "Next": "Volgende",
+    "About": "Info",
+    "CompactCalendarWidget on GitHub": "CompactCalendarWidget op GitHub",
+    "Report an Issue": "Een probleem rapporteren",
+    "CompactCalendarWidget in the Appstore": "CompactCalendarWidget in de Appstore"
 },
 "nplurals=2; plural=n != 1;");

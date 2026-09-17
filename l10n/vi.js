@@ -28,6 +28,11 @@ OC.L10N.register(
     "All day": "Cả ngày",
     "Loading calendars...": "Đang nạp lịch...",
     "Previous": "Lùi",
-    "Next": "Kế"
+    "Next": "Kế",
+    "About": "Giới thiệu",
+    "CompactCalendarWidget on GitHub": "CompactCalendarWidget trên GitHub",
+    "Report an Issue": "Báo cáo một vấn đề",
+    "CompactCalendarWidget in the Appstore": "CompactCalendarWidget in the Appstore",
+    "if you like {name} ⭐ rate and/or 💬 comment on {name} in the {where}": "nếu bạn thích tốc độ {name} và/hoặc bình luận về {name} trong {where}"
 },
 "nplurals=1; plural=0;");

@@ -28,6 +28,11 @@ OC.L10N.register(
     "All day": "Цял ден",
     "Loading calendars...": "Зареждане на календари...",
     "Previous": "Предишен",
-    "Next": "Следващият"
+    "Next": "Следващият",
+    "About": "Относно",
+    "CompactCalendarWidget on GitHub": "CompactCalendarWidget на GitHub",
+    "Report an Issue": "Докладвайте за проблем",
+    "CompactCalendarWidget in the Appstore": "CompactCalendarWidget в Appstore",
+    "if you like {name} ⭐ rate and/or 💬 comment on {name} in the {where}": "ако ви харесва {name} и / или коментар на {name} в {where}"
 },
 "nplurals=2; plural=n != 1;");

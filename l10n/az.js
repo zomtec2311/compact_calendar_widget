@@ -28,6 +28,11 @@ OC.L10N.register(
     "All day": "Bütün gün",
     "Loading calendars...": "Qeydiyyatdan keçirt ».",
     "Previous": "Previous",
-    "Next": "Next"
+    "Next": "Next",
+    "About": "Haqqında",
+    "CompactCalendarWidget on GitHub": "Oxunub",
+    "Report an Issue": "Hesabat",
+    "CompactCalendarWidget in the Appstore": "Appstore'da KompaktCalendarWidget",
+    "if you like {name} ⭐ rate and/or 💬 comment on {name} in the {where}": "siz {name} ⭐ faizi və / ya 💬 💬  if  if  if {name} {where}"
 },
 "nplurals=2; plural=n != 1;");

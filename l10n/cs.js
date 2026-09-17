@@ -28,6 +28,11 @@ OC.L10N.register(
     "All day": "Celý den",
     "Loading calendars...": "Nahrávám kalendáře...",
     "Previous": "Předchozí",
-    "Next": "Další"
+    "Next": "Další",
+    "About": "O",
+    "CompactCalendarWidget on GitHub": "CompactCalendarWidget on GitHub",
+    "Report an Issue": "Zpráva o vydání",
+    "CompactCalendarWidget in the Appstore": "CompactCalendarWidget v Appstore",
+    "if you like {name} ⭐ rate and/or 💬 comment on {name} in the {where}": "pokud se vám líbí {name} rychlost a / nebo komentář k {name} v {where}"
 },
 "nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);");

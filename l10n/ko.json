@@ -27,7 +27,11 @@
         "All day": "1일 전",
         "Loading calendars...": "로딩...",
         "Previous": "이름 *",
-        "Next": "이름 *"
+        "Next": "이름 *",
+        "About": "제품정보",
+        "CompactCalendarWidget on GitHub": "GitHub의 CompactCalendarWidget",
+        "Report an Issue": "자주 묻는 질문",
+        "CompactCalendarWidget in the Appstore": "Appstore에 CompactCalendarWidget"
     },
     "pluralForm": "nplurals=1; plural=0;"
 }

@@ -28,6 +28,10 @@ OC.L10N.register(
     "All day": "Bütün gün",
     "Loading calendars...": "Yükleniyor takvimler...",
     "Previous": "Önceki",
-    "Next": "Sonraki"
+    "Next": "Sonraki",
+    "About": "About",
+    "CompactCalendarWidget on GitHub": "CompactCalendarWidget at GitHub",
+    "Report an Issue": "Rapor an Issue",
+    "CompactCalendarWidget in the Appstore": "AppstoreCalendarWidget in the Appstore"
 },
 "nplurals=2; plural=n != 1;");

@@ -27,7 +27,11 @@
         "All day": "Visu dienu",
         "Loading calendars...": "Ielādē kalendārus...",
         "Previous": "Iepriekšējais",
-        "Next": "Nākamais"
+        "Next": "Nākamais",
+        "About": "Par",
+        "CompactCalendarWidget on GitHub": "CompactCalendarWidget on GitHub",
+        "Report an Issue": "Ziņot par kādu jautājumu",
+        "CompactCalendarWidget in the Appstore": "CompactCalendarWidget in the Apstore"
     },
     "pluralForm": "nplurals=3; plural=(n % 10 == 0 || n % 100 >= 11 && n % 100 <= 19) ? 0 : ((n % 10 == 1 && n % 100 != 11) ? 1 : 2);"
 }

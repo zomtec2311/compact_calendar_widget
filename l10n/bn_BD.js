@@ -28,6 +28,10 @@ OC.L10N.register(
     "All day": "সারাদিনব্যাপী",
     "Loading calendars...": "বর্ষপঞ্জি লোড করা হচ্ছে...",
     "Previous": "পূর্ববর্তী",
-    "Next": "পরবর্তী"
+    "Next": "পরবর্তী",
+    "About": "পরিচিতি",
+    "CompactCalendarWidget on GitHub": "জিয়াওহাবে সংক্ষিপ্ত বর্ষপঞ্জি একত্রিত করুন",
+    "Report an Issue": "একটি ইস্যু প্রতিবেদন",
+    "CompactCalendarWidget in the Appstore": "Appotdect পর্দায় সংক্ষিপ্ত বর্ষপঞ্জি"
 },
 "nplurals=2; plural=n > 1;");

@@ -27,7 +27,12 @@
         "All day": "Ĉiu tago",
         "Loading calendars...": "Prunte kalendarojn...",
         "Previous": "Antaŭa",
-        "Next": "La sekva"
+        "Next": "La sekva",
+        "About": "Ĉirkaŭ",
+        "CompactCalendarWidget on GitHub": "CompactCalendarWidget sur GitHub",
+        "Report an Issue": "Raporto de afero",
+        "CompactCalendarWidget in the Appstore": "Kompakta CalendarWidget en la Appstore",
+        "if you like {name} ⭐ rate and/or 💬 comment on {name} in the {where}": "se vi ŝatas {name} ⭐ indicon kaj/aŭ 💬 komentas {name} en la {where}"
     },
     "pluralForm": "nplurals=2; plural=n != 1;"
 }

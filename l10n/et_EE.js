@@ -28,6 +28,11 @@ OC.L10N.register(
     "All day": "Terve päev",
     "Loading calendars...": "Kalendrite laadimine...",
     "Previous": "Eelmine",
-    "Next": "Järgmine"
+    "Next": "Järgmine",
+    "About": "Umbes",
+    "CompactCalendarWidget on GitHub": "CompactCalendarWidget GitHubis",
+    "Report an Issue": "Teata probleemist",
+    "CompactCalendarWidget in the Appstore": "CompactCalendarWidget Appstore'is",
+    "if you like {name} ⭐ rate and/or 💬 comment on {name} in the {where}": "kui teile meeldib {name} х ja / või 💬 kommentaar {name} {where}"
 },
 "nplurals=2; plural=n != 1;");

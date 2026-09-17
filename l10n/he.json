@@ -27,7 +27,12 @@
         "All day": "כל היום",
         "Loading calendars...": "לוח השנה...",
         "Previous": "הקודם",
-        "Next": "הבא"
+        "Next": "הבא",
+        "About": "אודות",
+        "CompactCalendarWidget on GitHub": "עקבו אחרי GitHub",
+        "Report an Issue": "דיווח על בעיה",
+        "CompactCalendarWidget in the Appstore": "קומפקטיCalendarWidget in the Apphouse",
+        "if you like {name} ⭐ rate and/or 💬 comment on {name} in the {where}": "אם אתה אוהב {name} ⭐ קצב ו / או תגובה 💬 על {name} ב {where}"
     },
     "pluralForm": "nplurals=3; plural=(n == 1) ? 0 : ((n == 2) ? 1 : 2);"
 }

@@ -28,6 +28,11 @@ OC.L10N.register(
     "All day": "Hele dagen",
     "Loading calendars...": "Indlæser kalendere...",
     "Previous": "Forrige",
-    "Next": "Næste"
+    "Next": "Næste",
+    "About": "Om",
+    "CompactCalendarWidget on GitHub": "CompactCalendarWidget på GitHub",
+    "Report an Issue": "Meld en sag",
+    "CompactCalendarWidget in the Appstore": "CompactCalendarWidget i Appstore",
+    "if you like {name} ⭐ rate and/or 💬 comment on {name} in the {where}": "hvis du kan lide {name} sats og / eller kommentar til {name} i {where}"
 },
 "nplurals=2; plural=n != 1;");

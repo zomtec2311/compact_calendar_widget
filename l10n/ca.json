@@ -27,7 +27,12 @@
         "All day": "Tot el dia",
         "Loading calendars...": "S' estan carregant els calendaris...",
         "Previous": "Anterior",
-        "Next": "Següent"
+        "Next": "Següent",
+        "About": "Quant a",
+        "CompactCalendarWidget on GitHub": "CompactCalendarWidget al GitHub",
+        "Report an Issue": "Informe d' un llançament",
+        "CompactCalendarWidget in the Appstore": "CompactCalendarWidget en el magatzem d' aplicacions",
+        "if you like {name} ⭐ rate and/or 💬 comment on {name} in the {where}": "si t'agrada la taxa de {name} i/o comment a {name} al {where}"
     },
     "pluralForm": "nplurals=3; plural=(n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2);"
 }
