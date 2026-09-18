@@ -60,7 +60,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: #04px;
+	padding: 4px;
 	border-radius: 50%;
 	transition: background-color 0.2s ease;
 }
@@ -71,10 +71,14 @@
 }
 
 .date-navigation {
+	position: relative;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	width: 100%;
+	min-height: 32px;
 	gap: 8px;
+	box-sizing: border-box;
 }
 
 .date-navigation .nav-btn {
@@ -113,6 +117,29 @@
 }
 
 .date-navigation .today-btn:hover {
+	background: var(--color-background-hover, rgba(0, 0, 0, 0.08));
+}
+
+.date-navigation .extra-btn {
+	position: absolute;
+	right: 13px;
+
+	background: transparent;
+	border: none;
+	padding: 0;
+
+	cursor: pointer;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+
+	transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.date-navigation .extra-btn:hover2 {
+	opacity: 1;
 	background: var(--color-background-hover, rgba(0, 0, 0, 0.08));
 }
 
