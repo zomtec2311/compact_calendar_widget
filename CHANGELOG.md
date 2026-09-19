@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.7
+
+### Changed
+- position of the info button rearranged
+
+### Added
+- Multi-day support. If an appointment is over 2 or more days, it is now also displayed correctly in the widget and not only on the first day. Feature request ([#6](https://github.com/zomtec2311/compact_calendar_widget/discussions/6)) @FrazzledTurtle
+
 ## 1.0.6
 
 ### Added

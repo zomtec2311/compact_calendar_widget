@@ -406,6 +406,9 @@ class CalendarWidgetController extends Controller {
 					}
 
 					if ($isAllDay) {
+						if ($dtEnd > $dtStart) {
+							$dtEnd->modify('-1 day');
+						}
 						$dtEnd->setTime(23, 59, 59);
 					} else {
 						$dtEnd->setTimezone($tz);
