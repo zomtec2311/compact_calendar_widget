@@ -886,3 +886,17 @@ hr.popover-divider {
     font-weight: 500;
     color: var(--color-main-text);
 }
+
+.ismulti{
+	width: 20px;
+  height: 20px;
+  border: 1px solid white;
+  border-radius: 50%;
+}
+
+.ismultiyear{
+	width: 17px;
+  height: 17px;
+  border: 1px solid white;
+  border-radius: 50%;
+}

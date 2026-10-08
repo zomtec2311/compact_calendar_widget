@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.8
+
+### Added
+- Visualization of appointments that go over more than 1 day. refers to feature request ([#6](https://github.com/zomtec2311/compact_calendar_widget/discussions/6)) @FrazzledTurtle
+
+### Changed
+- when clicking on a day, open the calendar app according to the view setting Feature request ([#11](https://github.com/zomtec2311/compact_calendar_widget/issues/11)) @itsbrody
+
 ## 1.0.7
 
 ### Changed

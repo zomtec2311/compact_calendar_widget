@@ -405,7 +405,10 @@ class CalendarWidgetController extends Controller {
 						$dtEnd = clone $dtStart;
 					}
 
+					// --- HIER IST DIE KORREKTUR ---
 					if ($isAllDay) {
+						// Bei ganztägigen Events im iCal-Format (DTEND > DTSTART) ist das Enddatum exklusiv.
+						// Wir ziehen 1 Tag ab, um das echte (inklusive) Enddatum zu erhalten.
 						if ($dtEnd > $dtStart) {
 							$dtEnd->modify('-1 day');
 						}
@@ -413,6 +416,7 @@ class CalendarWidgetController extends Controller {
 					} else {
 						$dtEnd->setTimezone($tz);
 					}
+					// ------------------------------
 
 					$uidRaw = isset($obj['UID']) ? (is_array($obj['UID']) ? ($obj['UID'][0] ?? null) : $obj['UID']) : null;
 					$eventId = (string)($uidRaw ?? ($item['id'] ?? uniqid()));
@@ -428,6 +432,7 @@ class CalendarWidgetController extends Controller {
 						'allDay' => $isAllDay,
 						'color' => $colorStr,
 						'calendarColor' => $colorStr,
+						'multi' => ($dtEnd->format('d') -$dtStart->format('d') ),
 					];
 				}
 			}
